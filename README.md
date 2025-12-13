@@ -618,12 +618,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📞 Contact
-
-For questions or issues, please contact:
-- Hexiao Ding: [email]
-- Hongtao Cheng: [email]
-
----
-
-*Last updated: December 2024*
+*Last updated: December 2025*
