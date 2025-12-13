@@ -72,7 +72,7 @@ This project investigates the **association between modifiable lifestyle factors
 | **CHARLS** | China Health and Retirement Longitudinal Study | China | Wave 1 (2011) | 2, 3, 4 | ~10,000 |
 | **ELSA** | English Longitudinal Study of Ageing | England | Wave 7 (2014) | 8, 9 | ~5,000 |
 | **HRS** | Health and Retirement Study | USA | Wave 10 (2010) | 11, 12, 13, 14 | ~8,000 |
-| **SHARE** | Survey of Health, Ageing and Retirement in Europe | 17 European countries | Wave 4 (2011) | 5, 6, 7, 8 | ~20,000 |
+| **SHARE** | Survey of Health, Ageing and Retirement in Europe | 20 European countries | Wave 4 (2011) | 5, 6, 7, 8 | ~20,000 |
 | **MHAS** | Mexican Health and Aging Study | Mexico | Wave 3 (2012) | 4, 5 | ~8,000 |
 
 ### Data Harmonization
