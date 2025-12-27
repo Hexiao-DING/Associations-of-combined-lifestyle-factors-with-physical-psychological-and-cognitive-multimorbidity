@@ -524,24 +524,9 @@ SHARE:    Wave 4 (2011) → Wave 5 → Wave 6 → Wave 7 → Wave 8            [
 <div align="center">
 
 ```
-                                ┌───────────────┐
-                                │     AGE       │
-                                │  (Confounder) │
-                                └───────┬───────┘
-                                        │
-                ┌───────────────────────┼───────────────────────┐
-                │                       │                       │
-                ▼                       ▼                       ▼
-        ┌───────────────┐       ┌───────────────┐       ┌───────────────┐
-        │   LIFESTYLE   │       │   EDUCATION   │       │    PPC-MM     │
-        │   FACTORS     │◄──────│  (Confounder) │──────►│   OUTCOME     │
-        └───────────────┘       └───────────────┘       └───────────────┘
-                │                       ▲                       ▲
-                │                       │                       │
-                │               ┌───────┴───────┐               │
-                └──────────────►│    REGION     │───────────────┘
-                                │  (Confounder) │
-                                └───────────────┘
+
+<img width="1916" height="1296" alt="adba5e7a215efb56008ed736b786c45f" src="https://github.com/user-attachments/assets/c714804a-013e-4ccd-97cc-7454905c001f" />
+        
 ```
 
 </div>
