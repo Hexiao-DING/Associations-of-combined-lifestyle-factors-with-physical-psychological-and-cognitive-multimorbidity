@@ -1,621 +1,1023 @@
-# Associations of Combined Lifestyle Factors with Physical-Psychological-Cognitive Multimorbidity
+<div align="center">
 
-[![R](https://img.shields.io/badge/R-%3E%3D4.0-blue.svg)](https://www.r-project.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg)]()
+# 🔬 Combined Lifestyle Factors and Physical-Psychological-Cognitive Multimorbidity in Older Adults
 
-> **Full Title**: Associations of combined lifestyle factors with physical, psychological, and cognitive multimorbidity in older adults: a multi-cohort analysis of five prospective studies
+<br>
+
+[![R](https://img.shields.io/badge/R-≥4.0.0-276DC3?style=for-the-badge&logo=r&logoColor=white)](https://www.r-project.org/)
+[![License](https://img.shields.io/badge/License-Academic_Research-2ea44f?style=for-the-badge)]()
+[![Status](https://img.shields.io/badge/Status-Active_Development-success?style=for-the-badge)]()
+[![Cohorts](https://img.shields.io/badge/Cohorts-5_International-blue?style=for-the-badge)]()
+[![Participants](https://img.shields.io/badge/Participants-31,000+-orange?style=for-the-badge)]()
+
+<br>
+
+**📄 Full Title**
+
+*Associations of Combined Lifestyle Factors with Physical-Psychological-Cognitive Multimorbidity in Older Adults: A Multi-Cohort Analysis of Five Prospective Studies*
+
+<br>
+
+A harmonized individual participant data analysis examining the dose-response relationship<br>
+between modifiable lifestyle factors and multimorbidity across<br>
+the physical, psychological, and cognitive health domains
+
+<br>
+
+</div>
 
 ---
 
 ## 📋 Table of Contents
 
-- [Project Overview](#-project-overview)
-- [Study Design](#-study-design)
-- [Data Sources](#-data-sources)
-- [Analysis Framework](#-analysis-framework)
-- [Repository Structure](#-repository-structure)
-- [Code Documentation](#-code-documentation)
-- [How to Run](#-how-to-run)
-- [Output Files](#-output-files)
-- [Variable Definitions](#-variable-definitions)
-- [Statistical Methods](#-statistical-methods)
-- [Dependencies](#-dependencies)
-- [Authors](#-authors)
-- [Acknowledgments](#-acknowledgments)
+<table align="center" width="100%">
+<tr>
+<td width="50%" valign="top">
+
+**Study Design & Methods**
+
+1. [Executive Summary](#1-executive-summary)
+2. [Background & Rationale](#2-background--rationale)
+3. [Study Objectives & Hypotheses](#3-study-objectives--hypotheses)
+4. [Study Design](#4-study-design)
+5. [Data Sources](#5-data-sources)
+6. [Study Population](#6-study-population)
+
+</td>
+<td width="50%" valign="top">
+
+**Variables & Analysis**
+
+7. [Variable Definitions](#7-variable-definitions)
+8. [Statistical Analysis Plan](#8-statistical-analysis-plan)
+9. [Sensitivity Analyses](#9-sensitivity-analyses)
+10. [Analysis Pipeline](#10-analysis-pipeline)
+11. [Output Files](#11-output-files)
+12. [Technical Documentation](#12-technical-documentation)
+
+</td>
+</tr>
+</table>
 
 ---
 
-## 🎯 Project Overview
+## 1. Executive Summary
 
-This project investigates the **association between modifiable lifestyle factors and Physical-Psychological-Cognitive Multi-Morbidity (PPC-MM)** in older adults using harmonized data from five international prospective cohort studies.
+### 1.1 Study Synopsis
 
-### Key Research Questions
+| Item                 | Description                                                                                   |
+|:---------------------|:----------------------------------------------------------------------------------------------|
+| **Design**           | Multi-cohort prospective study with harmonized individual participant data                   |
+| **Population**       | Community-dwelling older adults aged ≥50 years                                               |
+| **Setting**          | 20 countries across 5 international aging cohorts                                            |
+| **Exposure**         | Cumulative unhealthy lifestyle score (0-4): drinking, smoking, physical inactivity, social isolation |
+| **Primary Outcome**  | Incident Physical-Psychological-Cognitive Multimorbidity (PPC-MM)                            |
+| **Sample Size**      | N = 31,302 participants free of PPC-MM at baseline                                           |
+| **Follow-up**        | Up to 10 years (median ~6 years)                                                             |
+| **Analysis**         | Pooled Cox regression with cohort stratification + Random-effects meta-analysis              |
 
-1. **Individual Effects**: What is the independent association of each lifestyle factor (drinking, smoking, physical inactivity, social isolation) with PPC-MM risk?
-2. **Cumulative Effects**: Is there a dose-response relationship between the number of unhealthy lifestyle factors and PPC-MM incidence?
-3. **Population Impact**: What proportion of PPC-MM cases could potentially be prevented by modifying lifestyle factors (Population Attributable Fraction)?
+### 1.2 PICO Framework
 
-### Clinical Significance
+| Component                  | Specification                                                                        |
+|:---------------------------|:-------------------------------------------------------------------------------------|
+| **P**opulation             | Adults ≥50 years, free of PPC-MM at baseline, from CHARLS, ELSA, HRS, MHAS, SHARE   |
+| **I**ntervention/Exposure  | Unhealthy lifestyle factors (0, 1, 2, 3, or 4 factors)                              |
+| **C**omparison             | 0 unhealthy lifestyle factors (reference group)                                      |
+| **O**utcome                | Time to first PPC-MM event (≥2 of 3 health domains affected)                        |
 
-- PPC-MM affects a substantial proportion of older adults globally
-- Lifestyle factors are modifiable and represent potential intervention targets
-- Understanding the cumulative impact informs public health strategies
+### 1.3 Key Methodological Strengths
 
----
-
-## 📊 Study Design
-
-### Design Type
-- **Multi-cohort prospective study**
-- **Harmonized individual participant data analysis**
-
-### Inclusion Criteria
-- Age ≥50 years at baseline
-- Free of PPC-MM at baseline (i.e., <2 of the 3 health domains affected)
-- Complete data on lifestyle exposures
-- At least one follow-up wave available
-
-### Exclusion Criteria
-- Prevalent PPC-MM at baseline
-- Missing data on key exposures or outcomes (complete case analysis)
-- Severe neurological conditions at baseline
-
----
-
-## 🗂 Data Sources
-
-### Participating Cohorts
-
-| Cohort | Full Name | Country/Region | Baseline Wave | Follow-up Waves | Sample Size |
-|--------|-----------|----------------|---------------|-----------------|-------------|
-| **CHARLS** | China Health and Retirement Longitudinal Study | China | Wave 1 (2011) | 2, 3, 4 | ~10,000 |
-| **ELSA** | English Longitudinal Study of Ageing | England | Wave 7 (2014) | 8, 9 | ~5,000 |
-| **HRS** | Health and Retirement Study | USA | Wave 10 (2010) | 11, 12, 13, 14 | ~8,000 |
-| **SHARE** | Survey of Health, Ageing and Retirement in Europe | 20 European countries | Wave 4 (2011) | 5, 6, 7, 8 | ~20,000 |
-| **MHAS** | Mexican Health and Aging Study | Mexico | Wave 3 (2012) | 4, 5 | ~8,000 |
-
-### Data Harmonization
-
-All cohorts were harmonized through the **Gateway to Global Aging Data (g2aging.org)** platform, ensuring:
-- Consistent variable definitions across studies
-- Comparable measurement instruments
-- Standardized coding schemes
+| Strength                              | Description                                              |
+|:--------------------------------------|:---------------------------------------------------------|
+| ✅ Large sample size                  | Adequate statistical power across subgroups              |
+| ✅ Prospective design                 | Establishing temporal relationship                       |
+| ✅ Harmonized data                    | Ensuring cross-cohort comparability                      |
+| ✅ Geographic diversity               | Enhancing generalizability (20 countries)                |
+| ✅ Comprehensive adjustment           | Demographic and regional confounders                     |
+| ✅ Multiple sensitivity analyses      | Testing robustness of findings                           |
+| ✅ Pre-specified analysis plan        | Minimizing selective reporting                           |
 
 ---
 
-## 🔬 Analysis Framework
+## 2. Background & Rationale
 
-### Primary Outcomes
+### 2.1 Burden of Multimorbidity in Older Adults
 
-| Outcome | Definition | Code |
-|---------|------------|------|
-| **Overall PPC-MM** | Any ≥2 of 3 health domains affected | `event_ppcmm` |
-| **P1P2** | Physical + Psychological | `event_mm_phys_psych` |
-| **P1C** | Physical + Cognitive | `event_mm_phys_cog` |
-| **P2C** | Psychological + Cognitive | `event_mm_psych_cog` |
-| **P1P2C** | All three domains | `event_mm_all_three` |
+Multimorbidity—the coexistence of multiple chronic conditions—represents a major public health challenge in aging populations worldwide. While traditional multimorbidity research has focused primarily on physical conditions, emerging evidence highlights the importance of considering **cross-domain multimorbidity** that spans physical, psychological, and cognitive health domains.
 
-### Exposure Variables
+### 2.2 The PPC-MM Concept
 
-#### A. Individual Lifestyle Factors (Binary)
+**Physical-Psychological-Cognitive Multimorbidity (PPC-MM)** is defined as the co-occurrence of conditions across at least two of three health domains:
 
-| Factor | Healthy (0) | Unhealthy (1) |
-|--------|-------------|---------------|
-| **Drinking** | Non-drinker or moderate | Any alcohol consumption |
-| **Smoking** | Never smoker | Ever smoker |
-| **Physical Activity** | Meets guidelines | Physically inactive |
-| **Social Participation** | Socially engaged | Socially isolated |
-
-#### B. Cumulative Lifestyle Score
-
-| Analysis | Categories | Reference |
-|----------|------------|-----------|
-| **Main (4-level)** | 0, 1, 2, 3+ unhealthy factors | 0 (healthiest) |
-| **Sensitivity (5-level)** | 0, 1, 2, 3, 4 unhealthy factors | 0 (healthiest) |
-
-### Sensitivity Analyses
-
-| ID | Analysis | Purpose |
-|----|----------|---------|
-| **S1** | 5-level lifestyle categories | Assess finer dose-response gradient |
-| **S2** | Heavy drinking definition | Test robustness with stricter alcohol threshold |
-| **S3** | MICE imputed data | Assess impact of missing data |
-| **S4** | Drop first follow-up | Address reverse causality concerns |
-
-### Covariates
-
-- Age (continuous, at baseline)
-- Sex (male/female)
-- Education (primary/secondary/tertiary)
-- Cohort (fixed effect in pooled analysis)
-
----
-
-## 📁 Repository Structure
+<div align="center">
 
 ```
-Project_Root/
-│
-├── 📂 Code/
-│   ├── 00_Functions_and_Setup.R    # Environment setup, global functions
-│   ├── 01_Pooled_Descriptive.R     # Descriptive statistics
-│   ├── 02_Phi_ICC_Analysis.R       # Correlation and clustering analysis
-│   ├── 03_Pooled_Cox_Analysis.R    # Cox proportional hazards models
-│   ├── 04_Sankey_Diagram.R         # Health state transition diagrams
-│   ├── 05_PAF_Analysis.R           # Population Attributable Fraction
-│   ├── 06_Meta_Analysis.R          # Meta-analysis across cohorts
-│   ├── main_analysis.R             # Master script (runs all)
-│   └── README.md                   # This documentation
-│
-├── 📂 Data_Excel/
-│   ├── 📂 CHARLS/
-│   │   ├── CHARLS_main_analysis.csv
-│   │   ├── CHARLS_mice_data.csv
-│   │   ├── CHARLS_sensitivity_drop1st.csv
-│   │   └── CHARLS_full_cleaned.csv
-│   ├── 📂 ELSA/
-│   │   └── ... (same structure)
-│   ├── 📂 HRS/
-│   │   ├── HRS_main_analysis.csv
-│   │   ├── HRS_mice_data.csv
-│   │   ├── HRS_sensitivity_drop1st.csv
-│   │   └── HRS_full_cleaned.csv
-│   ├── 📂 SHARE/
-│   │   └── ... (same structure)
-│   └── 📂 MHAS/
-│       └── ... (same structure)
-│
-└── 📂 Output/
-    ├── 📂 Figures/
-    │   ├── 📂 Sankey/              # Sankey diagrams (PDF + PNG)
-    │   ├── 📂 Forest/              # Forest plots
-    │   ├── 📂 Funnel/              # Funnel plots
-    │   └── 📂 DoseResponse/        # Dose-response curves
-    ├── *.xlsx                      # Excel workbooks
-    ├── *.csv                       # CSV data files
-    └── *.rds                       # R data objects
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                                                                               ║
+║                            PPC-MM CONCEPTUAL MODEL                            ║
+║                                                                               ║
+║       ┌──────────────────┐                         ┌──────────────────┐       ║
+║       │   PHYSICAL (P1)  │◄───────────────────────►│PSYCHOLOGICAL (P2)│       ║
+║       │                  │                         │                  │       ║
+║       │  • Hypertension  │       Bidirectional     │  • Depression    │       ║
+║       │  • Diabetes      │       pathways via      │    (CES-D ≥4)    │       ║
+║       │  • Heart disease │       inflammation,     │                  │       ║
+║       │  • Stroke        │       HPA axis, etc.    │                  │       ║
+║       │  • Cancer        │                         │                  │       ║
+║       │  • Lung disease  │                         │                  │       ║
+║       │  • Arthritis     │                         │                  │       ║
+║       └────────┬─────────┘                         └────────┬─────────┘       ║
+║                │                                            │                 ║
+║                │             ┌──────────────────┐           │                 ║
+║                │             │   COGNITIVE (C)  │           │                 ║
+║                └────────────►│                  │◄──────────┘                 ║
+║                              │  • Memory        │                             ║
+║                              │  • Orientation   │                             ║
+║                              │  • Executive     │                             ║
+║                              │    function      │                             ║
+║                              └──────────────────┘                             ║
+║                                                                               ║
+║                   PPC-MM = Any combination of ≥2 domains affected             ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
+
+</div>
+
+### 2.3 Lifestyle Factors as Modifiable Risk Factors
+
+| Factor                   | Biological Pathway                                           | Evidence Level    |
+|:-------------------------|:-------------------------------------------------------------|:------------------|
+| **Alcohol consumption**  | Neuroinflammation, oxidative stress, nutritional deficiency  | Strong            |
+| **Tobacco smoking**      | Vascular damage, chronic inflammation, accelerated aging     | Strong            |
+| **Physical inactivity**  | Reduced neuroplasticity, insulin resistance, muscle atrophy  | Strong            |
+| **Social isolation**     | Chronic stress, reduced cognitive stimulation, depression    | Moderate-Strong   |
+
+### 2.4 Knowledge Gap
+
+While individual lifestyle factors have been associated with various health outcomes, **few studies have examined**:
+
+1. The **cumulative effect** of multiple lifestyle factors on cross-domain multimorbidity
+2. The **dose-response relationship** between lifestyle burden and PPC-MM risk
+3. The **population-level impact** (PAF) of unhealthy lifestyles on PPC-MM
 
 ---
 
-## 📜 Code Documentation
+## 3. Study Objectives & Hypotheses
 
-### Script Descriptions
+### 3.1 Primary Objective
 
-#### `00_Functions_and_Setup.R`
-**Purpose**: Initialize the analysis environment
+To investigate the association between cumulative unhealthy lifestyle factors and incident PPC-MM in older adults.
 
-**Key Functions**:
-- `load_cohort_data()`: Load data for specified cohort and type
-- `get_lifestyle_vars()`: Get lifestyle variable names for a cohort
-- `standardize_vars()`: Standardize variable names across cohorts
-- `save_to_excel()`: Save results to Excel format
-- `save_to_csv()`: Save results to CSV format
-- `save_plot_safe()`: Robust plot saving with error handling
-- `close_all_devices()`: Clean up graphics devices
+### 3.2 Secondary Objectives
 
-**Global Settings**:
+| #    | Objective                                        | Analysis                                     |
+|:-----|:-------------------------------------------------|:---------------------------------------------|
+| 2a   | Examine the independent effect of each factor    | Mutually-adjusted Cox regression             |
+| 2b   | Assess dose-response relationship                | P-trend test, 5-level categorical analysis   |
+| 2c   | Evaluate PPC-MM subtype-specific associations    | Separate models for P1P2, P1C, P2C, P1P2C    |
+| 2d   | Estimate population-level impact                 | Population Attributable Fraction (PAF)       |
+| 2e   | Assess heterogeneity across cohorts              | Random-effects meta-analysis                 |
+
+### 3.3 A Priori Hypotheses
+
+> **H1**: There is a positive dose-response relationship between the number of unhealthy lifestyle factors and PPC-MM risk (P-trend < 0.05)
+
+> **H2**: Each unhealthy lifestyle factor is independently associated with increased PPC-MM risk after mutual adjustment (HR > 1.0)
+
+> **H3**: The cumulative lifestyle effect is consistent across geographic regions and cohorts (I² < 50%)
+
+---
+
+## 4. Study Design
+
+### 4.1 Design Overview
+
+<div align="center">
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                             STUDY DESIGN FLOWCHART                            ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │                       5 INTERNATIONAL COHORTS                         │   ║
+║   │    CHARLS (China) │ ELSA (UK) │ HRS (USA) │ MHAS (Mexico) │ SHARE     │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │                        DATA HARMONIZATION                             │   ║
+║   │              Gateway to Global Aging Data (g2aging.org)               │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │                   INCLUSION/EXCLUSION CRITERIA                        │   ║
+║   │      • Age ≥50 years                                                  │   ║
+║   │      • Free of PPC-MM at baseline (<2 domains affected)               │   ║
+║   │      • Complete exposure data                                         │   ║
+║   │      • ≥1 follow-up assessment                                        │   ║
+║   │      • No severe neurological conditions                              │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────────┐   ║
+║   │   POOLED ANALYSIS   │  │    META-ANALYSIS    │  │     SENSITIVITY     │   ║
+║   │   Cox regression    │  │   Random-effects    │  │   ANALYSES (S1-S4)  │   ║
+║   │  + strata(cohort)   │  │  + heterogeneity    │  │                     │   ║
+║   └─────────────────────┘  └─────────────────────┘  └─────────────────────┘   ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+```
+
+</div>
+
+### 4.2 Design Strengths & Limitations
+
+| Aspect             | Strength                  | Potential Limitation             | Mitigation Strategy         |
+|:-------------------|:--------------------------|:---------------------------------|:----------------------------|
+| **Temporality**    | Prospective design        | Exposure at single timepoint     | Sensitivity analysis (S4)   |
+| **Sample size**    | N > 31,000                | Unbalanced cohort sizes          | Cohort stratification       |
+| **Generalizability** | 20 countries            | Selection into cohorts           | Region adjustment           |
+| **Exposure**       | Standardized definitions  | Self-report                      | Harmonized instruments      |
+| **Outcome**        | Clinical criteria         | Variable assessment schedules    | Time-to-event analysis      |
+| **Confounding**    | Multiple adjustments      | Unmeasured confounders           | DAG-informed selection      |
+
+---
+
+## 5. Data Sources
+
+### 5.1 Participating Cohorts
+
+<table align="center" width="100%">
+<thead>
+<tr>
+<th align="left">Cohort</th>
+<th align="left">Full Name</th>
+<th align="center">Country/Region</th>
+<th align="center">Baseline Wave</th>
+<th align="right">N (Main)</th>
+<th align="left">Geographic Region</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><b>CHARLS</b></td>
+<td align="left">China Health and Retirement Longitudinal Study</td>
+<td align="center">🇨🇳 China</td>
+<td align="center">Wave 1 (2011)</td>
+<td align="right">2,322</td>
+<td align="left">Eastern Asia</td>
+</tr>
+<tr>
+<td align="left"><b>ELSA</b></td>
+<td align="left">English Longitudinal Study of Ageing</td>
+<td align="center">🇬🇧 England</td>
+<td align="center">Wave 7 (2014)</td>
+<td align="right">4,385</td>
+<td align="left">Northern Europe</td>
+</tr>
+<tr>
+<td align="left"><b>HRS</b></td>
+<td align="left">Health and Retirement Study</td>
+<td align="center">🇺🇸 USA</td>
+<td align="center">Wave 10 (2010)</td>
+<td align="right">2,786</td>
+<td align="left">Northern America</td>
+</tr>
+<tr>
+<td align="left"><b>MHAS</b></td>
+<td align="left">Mexican Health and Aging Study</td>
+<td align="center">🇲🇽 Mexico</td>
+<td align="center">Wave 3 (2012)</td>
+<td align="right">7,870</td>
+<td align="left">Central America</td>
+</tr>
+<tr>
+<td align="left"><b>SHARE</b></td>
+<td align="left">Survey of Health, Ageing and Retirement in Europe</td>
+<td align="center">🇪🇺 16 Countries</td>
+<td align="center">Wave 4 (2011)</td>
+<td align="right">13,488</td>
+<td align="left">Multiple (Europe)</td>
+</tr>
+<tr>
+<td align="left" colspan="4"><b>TOTAL</b></td>
+<td align="right"><b>31,302</b></td>
+<td align="left"><b>20 Countries</b></td>
+</tr>
+</tbody>
+</table>
+
+### 5.2 SHARE European Countries
+
+| Region               | Countries                                              | N        |
+|:---------------------|:-------------------------------------------------------|---------:|
+| **Western Europe**   | Austria, Switzerland, France, Belgium, Netherlands, Germany | 5,620 |
+| **Northern Europe**  | Estonia, Sweden, Denmark                               | 2,850    |
+| **Southern Europe**  | Spain, Italy, Portugal, Slovenia                       | 2,910    |
+| **Eastern Europe**   | Czech Republic, Poland, Hungary                        | 2,108    |
+
+### 5.3 Follow-up Structure
+
+<div align="center">
+
+```
+Timeline: Baseline ───────────────────────────────────────────► End of Follow-up
+
+CHARLS:   Wave 1 (2011) → Wave 2 → Wave 3 → Wave 4                      [8 years]
+ELSA:     Wave 7 (2014) → Wave 8 → Wave 9                               [6 years]
+HRS:      Wave 10 (2010) → Wave 11 → Wave 12 → Wave 13 → Wave 14       [10 years]
+MHAS:     Wave 3 (2012) → Wave 4 → Wave 5                               [6 years]
+SHARE:    Wave 4 (2011) → Wave 5 → Wave 6 → Wave 7 → Wave 8            [10 years]
+```
+
+</div>
+
+---
+
+## 6. Study Population
+
+### 6.1 Eligibility Criteria
+
+**Inclusion Criteria**
+
+| Criterion                            | Rationale                                     |
+|:-------------------------------------|:----------------------------------------------|
+| Age ≥50 years at baseline            | Target population for aging research          |
+| Free of PPC-MM at baseline           | Incident case analysis requirement            |
+| Complete lifestyle exposure data     | Valid exposure classification                 |
+| ≥1 follow-up assessment              | Time-to-event analysis requirement            |
+
+**Exclusion Criteria**
+
+| Criterion                            | Rationale                                     |
+|:-------------------------------------|:----------------------------------------------|
+| Prevalent PPC-MM at baseline         | Avoid prevalent-incident case mixing          |
+| Severe neurological conditions       | Potential for reverse causation               |
+| Missing key covariates               | Valid adjustment requirement                  |
+
+### 6.2 Participant Flow
+
+<div align="center">
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                           PARTICIPANT FLOW DIAGRAM                            ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║       Total participants in 5 cohorts at baseline wave                        ║
+║                                                            N = ~80,000        ║
+║                                    │                                          ║
+║                                    ▼                                          ║
+║       ┌───────────────────────────────────────────────────────────────┐       ║
+║       │  EXCLUSION STEP 1: Age < 50 years                             │       ║
+║       └───────────────────────────────────────────────────────────────┘       ║
+║                                    │                                          ║
+║                                    ▼                                          ║
+║       ┌───────────────────────────────────────────────────────────────┐       ║
+║       │  EXCLUSION STEP 2: Prevalent PPC-MM at baseline               │       ║
+║       │  (≥2 of 3 domains already affected)                           │       ║
+║       └───────────────────────────────────────────────────────────────┘       ║
+║                                    │                                          ║
+║                                    ▼                                          ║
+║       ┌───────────────────────────────────────────────────────────────┐       ║
+║       │  EXCLUSION STEP 3: Missing lifestyle exposure data            │       ║
+║       └───────────────────────────────────────────────────────────────┘       ║
+║                                    │                                          ║
+║                                    ▼                                          ║
+║       ┌───────────────────────────────────────────────────────────────┐       ║
+║       │  EXCLUSION STEP 4: Severe neurological conditions             │       ║
+║       └───────────────────────────────────────────────────────────────┘       ║
+║                                    │                                          ║
+║                                    ▼                                          ║
+║       ┌───────────────────────────────────────────────────────────────┐       ║
+║       │  EXCLUSION STEP 5: No follow-up data available                │       ║
+║       └───────────────────────────────────────────────────────────────┘       ║
+║                                    │                                          ║
+║                                    ▼                                          ║
+║       ╔═══════════════════════════════════════════════════════════════╗       ║
+║       ║          FINAL ANALYTIC SAMPLE: N = 31,302                    ║       ║
+║       ╚═══════════════════════════════════════════════════════════════╝       ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+```
+
+</div>
+
+---
+
+## 7. Variable Definitions
+
+### 7.1 Primary Outcome: PPC-MM
+
+**Definition**: Incident Physical-Psychological-Cognitive Multimorbidity, defined as the **first occurrence of having ≥2 of 3 health domains affected** during follow-up.
+
+**Domain Definitions**
+
+<table align="center" width="100%">
+<thead>
+<tr>
+<th align="left" width="15%">Domain</th>
+<th align="left" width="25%">Component</th>
+<th align="left" width="35%">Measurement</th>
+<th align="left" width="25%">Threshold</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left" rowspan="7"><b>Physical (P1)</b></td>
+<td align="left" colspan="3"><i>Chronic disease count ≥2 of the following:</i></td>
+</tr>
+<tr>
+<td align="left">Hypertension</td>
+<td align="left">Self-reported physician diagnosis</td>
+<td align="left">Yes/No</td>
+</tr>
+<tr>
+<td align="left">Diabetes</td>
+<td align="left">Self-reported physician diagnosis</td>
+<td align="left">Yes/No</td>
+</tr>
+<tr>
+<td align="left">Cancer</td>
+<td align="left">Self-reported physician diagnosis</td>
+<td align="left">Yes/No</td>
+</tr>
+<tr>
+<td align="left">Lung disease</td>
+<td align="left">Self-reported physician diagnosis</td>
+<td align="left">Yes/No</td>
+</tr>
+<tr>
+<td align="left">Heart disease</td>
+<td align="left">Self-reported physician diagnosis</td>
+<td align="left">Yes/No</td>
+</tr>
+<tr>
+<td align="left">Stroke</td>
+<td align="left">Self-reported physician diagnosis</td>
+<td align="left">Yes/No</td>
+</tr>
+<tr>
+<td align="left"><b>Psychological (P2)</b></td>
+<td align="left">Depression</td>
+<td align="left">CES-D 10-item scale (0-30)</td>
+<td align="left"><b>Score ≥4</b></td>
+</tr>
+<tr>
+<td align="left" rowspan="4"><b>Cognitive (C)</b></td>
+<td align="left" colspan="3"><i>Age-standardized composite z-score &lt;-1.5 SD:</i></td>
+</tr>
+<tr>
+<td align="left">Memory</td>
+<td align="left">Immediate and delayed word recall</td>
+<td align="left">Combined score</td>
+</tr>
+<tr>
+<td align="left">Orientation</td>
+<td align="left">Date, day, month, year</td>
+<td align="left">0-4 scale</td>
+</tr>
+<tr>
+<td align="left">Executive function</td>
+<td align="left">Serial 7s subtraction</td>
+<td align="left">0-5 scale</td>
+</tr>
+</tbody>
+</table>
+
+### 7.2 Secondary Outcomes: PPC-MM Subtypes
+
+| Outcome Code | Full Name                 | Definition                 | Event Variable           | Time Variable             |
+|:-------------|:--------------------------|:---------------------------|:-------------------------|:--------------------------|
+| **Overall**  | Overall PPC-MM            | ≥2 of 3 domains affected   | `event_ppcmm`            | `time_ppcmm_months`       |
+| **P1P2**     | Physical-Psychological    | Physical + Psychological   | `event_mm_phys_psych`    | `time_mm_phys_psych`      |
+| **P1C**      | Physical-Cognitive        | Physical + Cognitive       | `event_mm_phys_cog`      | `time_mm_phys_cog`        |
+| **P2C**      | Psychological-Cognitive   | Psychological + Cognitive  | `event_mm_psych_cog`     | `time_mm_psych_cog`       |
+| **P1P2C**    | Triple Multimorbidity     | All three domains          | `event_mm_all_three`     | `time_mm_all_three`       |
+
+### 7.3 Primary Exposure: Lifestyle Factors
+
+**Individual Lifestyle Factors**
+
+| Factor                 | Variable          | Operational Definition                          | Coding                    |
+|:-----------------------|:------------------|:------------------------------------------------|:--------------------------|
+| **Alcohol**            | `unhealthy_drink` | Any current alcohol consumption                 | 0=No/Former, 1=Current    |
+| **Tobacco**            | `unhealthy_smoke` | Current tobacco smoking                         | 0=Never/Former, 1=Current |
+| **Physical Activity**  | `unhealthy_pa`    | No moderate or vigorous activity weekly         | 0=Active, 1=Inactive      |
+| **Social Isolation**   | `unhealthy_soc`   | Living alone AND no social participation        | 0=Connected, 1=Isolated   |
+
+**Cumulative Lifestyle Score**
+
+| Variable            | Formula                   | Range | Categories                |
+|:--------------------|:--------------------------|:------|:--------------------------|
+| `unhealthy_score`   | Sum of 4 binary factors   | 0-4   | Continuous                |
+| `n_lifestyle_cat`   | Categorical grouping      | —     | 0 (ref), 1, 2, 3+         |
+| `n_lifestyle_5cat`  | Finer categories (S1)     | —     | 0 (ref), 1, 2, 3, 4       |
+
+### 7.4 Covariates (Adjustment Variables)
+
+**Covariate Selection Rationale (DAG-Informed)**
+
+<div align="center">
+
+```
+                                ┌───────────────┐
+                                │     AGE       │
+                                │  (Confounder) │
+                                └───────┬───────┘
+                                        │
+                ┌───────────────────────┼───────────────────────┐
+                │                       │                       │
+                ▼                       ▼                       ▼
+        ┌───────────────┐       ┌───────────────┐       ┌───────────────┐
+        │   LIFESTYLE   │       │   EDUCATION   │       │    PPC-MM     │
+        │   FACTORS     │◄──────│  (Confounder) │──────►│   OUTCOME     │
+        └───────────────┘       └───────────────┘       └───────────────┘
+                │                       ▲                       ▲
+                │                       │                       │
+                │               ┌───────┴───────┐               │
+                └──────────────►│    REGION     │───────────────┘
+                                │  (Confounder) │
+                                └───────────────┘
+```
+
+</div>
+
+**Covariate Specifications**
+
+| Variable         | Type        | Categories/Units                          | Role           | Adjustment Rationale                          |
+|:-----------------|:------------|:------------------------------------------|:---------------|:----------------------------------------------|
+| `age_baseline`   | Continuous  | Years                                     | Confounder     | Strong predictor of both exposure and outcome |
+| `sex`            | Binary      | Men (ref), Women                          | Confounder     | Sex differences in lifestyle and health       |
+| `edu`            | 3-level     | Primary (ref), Secondary, Tertiary        | Confounder     | SES proxy; affects lifestyle and healthcare   |
+| `region`         | 7-level     | See Section 5.2                           | Confounder     | Cultural/environmental factors                |
+| `cohort`         | 5-level     | CHARLS, ELSA, HRS, MHAS, SHARE            | Stratification | Controls baseline hazard differences          |
+
+**Final Model Specification**
+
 ```r
-BASELINE_WAVES <- list(CHARLS=1, ELSA=7, HRS=10, SHARE=4, MHAS=3)
-DATA_PATHS <- list(...)      # Main analysis data paths
-SENSITIVITY_PATHS <- list()  # Drop1st sensitivity data
-MICE_PATHS <- list()         # MICE imputed data
+# Cox Proportional Hazards Model
+coxph(
+  Surv(time_ppcmm_months, event_ppcmm) ~ 
+    n_lifestyle_cat +      # Exposure (categorical)
+    age_baseline +         # Continuous
+    sex +                  # Binary
+    edu +                  # 3-level factor
+    region +               # 7-level factor
+    strata(cohort),        # Stratification (separate baseline hazards)
+  data = pooled_data
+)
 ```
 
 ---
 
-#### `01_Pooled_Descriptive.R`
-**Purpose**: Generate descriptive statistics and pooled dataset
+## 8. Statistical Analysis Plan
 
-**Outputs**:
-- `Descriptive_Statistics.xlsx` - Multi-sheet Excel with:
-  - Sample characteristics by cohort
-  - Lifestyle factor distributions
-  - Outcome event counts and rates
-  - All 5 outcomes (Overall + 4 subtypes)
-- `Pooled_main_data.rds` - Pooled analysis dataset
-- `Table1_by_Cohort.csv` - Baseline characteristics table
+### 8.1 Analysis Overview
 
-**Key Steps**:
-1. Load data from each cohort
-2. Standardize variable names (wave-specific → common names)
-3. Create pooled dataset
-4. Calculate descriptive statistics
-5. Generate TableOne summary
+| Analysis Type   | Method                    | Software            | Purpose                    |
+|:----------------|:--------------------------|:--------------------|:---------------------------|
+| Descriptive     | TableOne, frequencies     | R (tableone)        | Baseline characteristics   |
+| Correlation     | Phi coefficient, ICC      | R (psych, lme4)     | Lifestyle factor correlations |
+| Primary         | Cox regression (pooled)   | R (survival)        | Main effect estimates      |
+| Secondary       | Meta-analysis             | R (meta, metafor)   | Heterogeneity assessment   |
+| Exploratory     | PAF analysis              | R (custom)          | Population impact          |
 
----
+### 8.2 Descriptive Analysis
 
-#### `02_Phi_ICC_Analysis.R`
-**Purpose**: Assess correlations and clustering
+**Baseline characteristics** stratified by:
+- Cohort (5 groups)
+- Lifestyle score category (0, 1, 2, 3+)
 
-**Analyses**:
-1. **Phi Coefficients**: Correlation between binary lifestyle factors
-2. **ICC (Intraclass Correlation)**: Clustering of outcomes within cohorts
+**Statistics reported**:
+- Continuous variables: Mean ± SD or Median (IQR)
+- Categorical variables: N (%)
+- Standardized mean differences for imbalance assessment
 
-**Outputs**:
-- `Phi_ICC_Analysis_Results.xlsx`
-- `Phi_Correlation_Heatmap.pdf/png`
+### 8.3 Correlation Analysis
 
-**Interpretation**:
-- Phi > 0.3: Strong correlation between lifestyle factors
-- ICC > 0.05: Meaningful clustering, consider multilevel models
+**Phi Coefficient (Between Lifestyle Factors)**
 
----
+| Parameter       | Specification                                        |
+|:----------------|:-----------------------------------------------------|
+| **Method**      | Pearson correlation for binary variables             |
+| **95% CI**      | Bootstrap (B = 1,000, parallel computing)            |
+| **P-value**     | Chi-square test of independence                      |
+| **Correction**  | Bonferroni (6 pairwise comparisons, α = 0.0083)      |
 
-#### `03_Pooled_Cox_Analysis.R`
-**Purpose**: Cox proportional hazards regression (pooled data)
+**Interpretation Scale**:
 
-**Analyses**:
+| Phi Value       | Interpretation |
+|:----------------|:---------------|
+| \|Φ\| < 0.10    | Negligible     |
+| \|Φ\| 0.10-0.20 | Weak           |
+| \|Φ\| 0.20-0.30 | Moderate       |
+| \|Φ\| > 0.30    | Strong         |
 
-| Model | Description | Exposure |
-|-------|-------------|----------|
-| **Primary Individual** | 4 lifestyle factors mutually adjusted | Binary (0/1) |
-| **Primary Cumulative** | Lifestyle score categories | 0/1/2/3+ |
-| **S1** | 5-level categories | 0/1/2/3/4 |
-| **S2** | Heavy drinking definition | Uses `heavy_drink` |
-| **S3** | MICE imputed data | Full imputation |
-| **S4** | Drop first follow-up | Exclude wave 2 |
+**Intraclass Correlation Coefficient (ICC)**
 
-**Outputs**:
-- `Pooled_Cox_Results_Comprehensive.xlsx` - All results
-- `Pooled_Cox_All_Results.csv` - Long format results
-- `DoseResponse_*.png` - Dose-response plots with P-trend
+| Parameter         | Specification                              |
+|:------------------|:-------------------------------------------|
+| **Model**         | Mixed-effects logistic regression          |
+| **Random effect** | Cohort (5 clusters)                        |
+| **95% CI**        | Delta method approximation                 |
+| **P-value**       | Likelihood Ratio Test (LRT)                |
+| **R Package**     | lme4 + performance                         |
 
-**Model Specification**:
-```r
-Surv(time_ppcmm_months, event_ppcmm) ~ 
-  n_lifestyle_cat + age_baseline + sex + edu + strata(cohort)
-```
+### 8.4 Cox Proportional Hazards Regression
 
----
+**Model Assumptions**
 
-#### `04_Sankey_Diagram.R`
-**Purpose**: Visualize health state transitions
+| Assumption                | Verification Method              | Action if Violated           |
+|:--------------------------|:---------------------------------|:-----------------------------|
+| Proportional hazards      | Schoenfeld residuals, log-log plot | Time-varying coefficients  |
+| Linearity (continuous)    | Martingale residuals             | Spline transformation        |
+| No influential observations | dfbeta statistics              | Sensitivity exclusion        |
+| No multicollinearity      | VIF < 5                          | Variable selection           |
 
-**State Definitions**:
+**Effect Measures**
 
-| Baseline (4 states) | Follow-up (8 states) |
-|---------------------|----------------------|
-| Healthy (no condition) | Healthy |
-| P1 (Physical only) | P1, P2, C (single) |
-| P2 (Psychological only) | P1P2, P1C, P2C (dual) |
-| C (Cognitive only) | P1P2C (triple) |
+| Measure       | Definition              | Interpretation                    |
+|:--------------|:------------------------|:----------------------------------|
+| **HR**        | Hazard Ratio = exp(β)   | Relative hazard of PPC-MM         |
+| **95% CI**    | Confidence Interval     | Precision of estimate             |
+| **P-value**   | Two-sided               | Statistical significance (α=0.05) |
+| **P-trend**   | Ordinal exposure test   | Dose-response evidence            |
 
-**Outputs**:
-- Per-cohort Sankey diagrams (Overall + by lifestyle category)
-- Pooled Sankey diagrams (Overall + stratified)
-- `Sankey_Legend.pdf/png` - Standalone legend
-- `Sankey_Comprehensive_Results.xlsx`:
-  - Transition matrices with N (row %)
-  - PPC-MM incidence by group
-  - Detailed transition tables
+### 8.5 Meta-Analysis
 
-**Features**:
-- Labels show state name, N, and percentage
-- Color-coded by health state
-- Stratified by lifestyle category (0/1/2/3+)
+| Parameter                   | Method/Value                              |
+|:----------------------------|:------------------------------------------|
+| **Effect measure**          | Hazard Ratio (log scale)                  |
+| **Fixed-effects model**     | Inverse variance weighting                |
+| **Random-effects model**    | DerSimonian-Laird estimator               |
+| **Heterogeneity statistics**| Q statistic, I², τ²                       |
+| **Model selection**         | Random-effects if I² > 50%                |
+| **Sensitivity analysis**    | Leave-one-out (jackknife)                 |
+| **Publication bias**        | Egger's regression, Begg's rank test, Funnel plots |
 
----
+### 8.6 Population Attributable Fraction (PAF)
 
-#### `05_PAF_Analysis.R`
-**Purpose**: Population Attributable Fraction calculation
+**Miettinen Formula** (appropriate for cohort studies):
 
-**Formula (Miettinen)**:
-```
-PAF = P_case × (HR - 1) / HR
-```
+$$PAF = P_{case} \times \frac{HR - 1}{HR}$$
 
 Where:
-- `P_case` = Proportion of cases exposed
-- `HR` = Hazard ratio for that exposure level
+- $P_{case}$ = Proportion of cases exposed
+- $HR$ = Adjusted hazard ratio
 
-**Outputs**:
-- `PAF_Analysis_Comprehensive.xlsx`
-- `PAF_Analysis_All_Results.csv`
-
-**Interpretation**: Proportion of cases theoretically preventable if exposure eliminated
+**Confidence Intervals**: Bootstrap (B = 1,000)
 
 ---
 
-#### `06_Meta_Analysis.R`
-**Purpose**: Meta-analysis across cohorts
+## 9. Sensitivity Analyses
 
-**Methods**:
-- **Fixed-effects model**: Assumes common true effect
-- **Random-effects model**: DerSimonian-Laird estimator
-- **Heterogeneity**: Q statistic, I², Tau²
-- **Publication bias**: Egger's test, funnel plots
-- **Sensitivity**: Leave-one-out analysis
+### 9.1 Pre-Specified Sensitivity Analyses
 
-**Outputs**:
-- `Meta_Analysis_Comprehensive.xlsx`:
-  - Study characteristics
-  - MA results (fixed + random)
-  - Heterogeneity statistics
-  - Leave-one-out results
-  - Egger's test results
-- Forest plots by outcome and exposure level
-- Funnel plots for bias assessment
+| Code    | Analysis                        | Rationale                         | Expected Impact              |
+|:--------|:--------------------------------|:----------------------------------|:-----------------------------|
+| **S1**  | 5-level exposure (0/1/2/3/4)    | Finer dose-response assessment    | More precise gradient        |
+| **S2**  | Heavy drinking definition       | Alternative exposure coding       | More conservative estimate   |
+| **S3**  | MICE imputed data               | Missing data sensitivity          | Similar if MAR holds         |
+| **S4**  | Exclude first follow-up wave    | Reverse causality concern         | Attenuated if reverse causal |
 
----
+### 9.2 S1: 5-Level Lifestyle Categories
 
-#### `main_analysis.R`
-**Purpose**: Master script to run complete pipeline
+**Rationale**: The primary analysis combines 3 and 4 unhealthy factors (3+). S1 examines whether the effect saturates at 3 factors or continues to increase.
 
-**Execution Order**:
+<div align="center">
+
 ```
-00_Functions_and_Setup.R
-    ↓
-01_Pooled_Descriptive.R
-    ↓
-02_Phi_ICC_Analysis.R
-    ↓
-03_Pooled_Cox_Analysis.R
-    ↓
-04_Sankey_Diagram.R
-    ↓
-05_PAF_Analysis.R
-    ↓
-06_Meta_Analysis.R
+Primary:    0 (ref) ──► 1 ──► 2 ──► 3+
+S1:         0 (ref) ──► 1 ──► 2 ──► 3 ──► 4
 ```
 
-**Features**:
-- Automatic error handling
-- Progress tracking
-- Analysis status summary
-- Runtime logging
+</div>
+
+### 9.3 S2: Heavy Drinking Definition
+
+**Rationale**: The primary definition includes any alcohol consumption. S2 uses a stricter threshold aligned with clinical guidelines.
+
+| Definition                  | Men              | Women            |
+|:----------------------------|:-----------------|:-----------------|
+| Primary (any drinking)      | >0 drinks/week   | >0 drinks/week   |
+| S2 (heavy drinking)         | >14 drinks/week  | >7 drinks/week   |
+
+### 9.4 S3: Multiple Imputation
+
+**Rationale**: Address potential selection bias from complete-case analysis.
+
+| Parameter            | Value                               |
+|:---------------------|:------------------------------------|
+| **Method**           | 2-Level MICE (multilevel)           |
+| **Level 2 cluster**  | Country (20 clusters)               |
+| **Imputations**      | m = 20                              |
+| **Iterations**       | maxit = 30                          |
+| **Pooling**          | Rubin's rules                       |
+
+### 9.5 S4: Exclude First Follow-up Wave
+
+**Rationale**: Subclinical disease at baseline may influence both lifestyle and subsequent PPC-MM (reverse causality).
+
+<div align="center">
+
+```
+Primary:    Baseline ─────────────────────────────► All follow-up waves
+S4:         Baseline ────── [Exclude Wave 2] ─────► Wave 3 onwards
+```
+
+</div>
 
 ---
 
-## 🚀 How to Run
+## 10. Analysis Pipeline
 
-### Prerequisites
+### 10.1 Script Architecture
 
-1. **R version**: ≥ 4.0.0
-2. **RStudio**: Recommended for interactive use
-3. **Data files**: Place in `Data_Excel/[Cohort]/` folders
+<div align="center">
 
-### Option 1: Complete Pipeline
+```
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                              ANALYSIS PIPELINE                                ║
+╠═══════════════════════════════════════════════════════════════════════════════╣
+║                                                                               ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │  00_Functions_and_Setup.R                                             │   ║
+║   │  ├── Environment configuration                                        │   ║
+║   │  ├── Path definitions                                                 │   ║
+║   │  ├── Covariate specifications (COX_COVARIATES)                        │   ║
+║   │  ├── MICE configuration (MICE_CONFIG)                                 │   ║
+║   │  └── Helper functions                                                 │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │  01_Pooled_Descriptive.R                                              │   ║
+║   │  ├── Load and harmonize cohort data                                   │   ║
+║   │  ├── Apply inclusion/exclusion criteria                               │   ║
+║   │  ├── Generate TableOne                                                │   ║
+║   │  └── Output: Descriptive_Statistics.xlsx                              │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │  02_MICE_Imputation.R [Optional]                                      │   ║
+║   │  ├── Missing data assessment                                          │   ║
+║   │  ├── 2-Level MICE (country clusters)                                  │   ║
+║   │  └── Output: Pooled_mice_imputed.rds                                  │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │  03_Phi_ICC_Analysis.R                                                │   ║
+║   │  ├── Phi coefficients (parallel bootstrap)                            │   ║
+║   │  ├── ICC for clustering                                               │   ║
+║   │  ├── Bonferroni correction                                            │   ║
+║   │  └── Output: Phi_ICC_Analysis_Results.xlsx                            │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │  04_Pooled_Cox_Analysis.R                                             │   ║
+║   │  ├── Primary: Individual factors (mutually adjusted)                  │   ║
+║   │  ├── Primary: Cumulative effect (4-level)                             │   ║
+║   │  ├── Sensitivity: S1, S2, S3, S4                                      │   ║
+║   │  └── Output: Pooled_Cox_Results_Comprehensive.xlsx                    │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │  05_Sankey_Diagram.R                                                  │   ║
+║   │  ├── Health state transitions (baseline → follow-up)                  │   ║
+║   │  ├── Stratified by lifestyle category                                 │   ║
+║   │  └── Output: Sankey_*.pdf/png                                         │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │  06_PAF_Analysis.R                                                    │   ║
+║   │  ├── Individual factor PAFs                                           │   ║
+║   │  ├── Cumulative PAF                                                   │   ║
+║   │  └── Output: PAF_Analysis_Comprehensive.xlsx                          │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │  07_Meta_Analysis.R                                                   │   ║
+║   │  ├── Cohort-specific Cox models                                       │   ║
+║   │  ├── Random-effects meta-analysis                                     │   ║
+║   │  ├── Heterogeneity assessment                                         │   ║
+║   │  ├── Publication bias tests                                           │   ║
+║   │  └── Output: Meta_Analysis_Comprehensive.xlsx, Forest/Funnel plots    │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │  08_Methods_Parameters.R                                              │   ║
+║   │  ├── Export all statistical parameters                                │   ║
+║   │  └── Output: Methods_Parameters.xlsx (11 sheets)                      │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                                                               ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
+```
+
+</div>
+
+### 10.2 Script Details
+
+| Script                        | Purpose                                          | Key Methods                       | Primary Output                           |
+|:------------------------------|:-------------------------------------------------|:----------------------------------|:-----------------------------------------|
+| `00_Functions_and_Setup.R`    | Environment setup, paths, configuration          | Package loading, global constants | —                                        |
+| `01_Pooled_Descriptive.R`     | Data pooling and baseline characteristics        | TableOne, SMD                     | `Descriptive_Statistics.xlsx`            |
+| `02_MICE_Imputation.R`        | 2-Level multiple imputation                      | mice, miceadds (2l.pmm)           | `Pooled_mice_imputed.rds`                |
+| `03_Phi_ICC_Analysis.R`       | Correlation and clustering                       | Bootstrap, LRT, Bonferroni        | `Phi_ICC_Analysis_Results.xlsx`          |
+| `04_Pooled_Cox_Analysis.R`    | Cox proportional hazards                         | coxph, strata(), P-trend          | `Pooled_Cox_Results_Comprehensive.xlsx`  |
+| `05_Sankey_Diagram.R`         | Health state transitions                         | ggalluvial                        | `Sankey_*.pdf/png`                       |
+| `06_PAF_Analysis.R`           | Population attributable fraction                 | Miettinen formula, Bootstrap CI   | `PAF_Analysis_Comprehensive.xlsx`        |
+| `07_Meta_Analysis.R`          | Meta-analysis across cohorts                     | DerSimonian-Laird, I², Egger's    | `Meta_Analysis_Comprehensive.xlsx`       |
+| `08_Methods_Parameters.R`     | Export analysis parameters                       | Documentation                     | `Methods_Parameters.xlsx`                |
+| `main_analysis.R`             | Master script                                    | Sequential execution, logging     | Console output                           |
+
+---
+
+## 11. Output Files
+
+### 11.1 Directory Structure
+
+```
+Output/
+│
+├── 📊 Excel Workbooks/
+│   ├── Descriptive_Statistics.xlsx
+│   ├── Phi_ICC_Analysis_Results.xlsx
+│   ├── Pooled_Cox_Results_Comprehensive.xlsx
+│   ├── Sankey_Comprehensive_Results.xlsx
+│   ├── PAF_Analysis_Comprehensive.xlsx
+│   ├── Meta_Analysis_Comprehensive.xlsx
+│   └── Methods_Parameters.xlsx
+│
+├── 📈 Figures/
+│   ├── Sankey/
+│   │   ├── Sankey_[Cohort]_Overall.pdf/png
+│   │   ├── Sankey_[Cohort]_Cat[0-3plus].pdf/png
+│   │   ├── Sankey_Pooled_Overall.pdf/png
+│   │   └── Sankey_Legend.pdf/png
+│   ├── Forest/
+│   │   └── Forest_[Outcome]_[Level].pdf/png
+│   ├── Funnel/
+│   │   └── Funnel_[Outcome]_[Level].pdf/png
+│   └── DoseResponse/
+│       └── DoseResponse_*.png
+│
+├── 📁 Supplementary CSV Files/
+│   ├── Table1_by_Cohort.csv
+│   ├── Phi_Coefficients_Complete.csv
+│   ├── ICC_Results_Complete.csv
+│   ├── Study_Specific_HR_Results.csv
+│   └── Sankey_All_Transitions.csv
+│
+└── 📦 R Objects/
+    ├── Pooled_main_data.rds
+    ├── Pooled_cox_results.rds
+    └── Pooled_mice_imputed.rds
+```
+
+### 11.2 Key Output Files Description
+
+| File                                   | Sheets/Contents                                          | Use Case                |
+|:---------------------------------------|:---------------------------------------------------------|:------------------------|
+| `Methods_Parameters.xlsx`              | Study_Overview, Cohort_Details, MICE_Parameters, Cox_Parameters, Exposure_Definitions, Outcome_Definitions, PhiICC_Parameters, Meta_Parameters, PAF_Parameters, Sensitivity_Analyses, Sankey_Parameters | Methods section writing |
+| `Pooled_Cox_Results_Comprehensive.xlsx`| Primary_Individual, Primary_Cumulative, S1_5Level, S2_HeavyDrink, S3_MICE, S4_Drop1st | Main results tables     |
+| `Meta_Analysis_Comprehensive.xlsx`     | Study_Characteristics, MA_Summary_All, Leave_One_Out, Eggers_Test | Meta-analysis reporting |
+| `Phi_ICC_Analysis_Results.xlsx`        | Phi_Summary, Phi_Matrix, ICC_Summary, Interpretation_Guide | Supplementary materials |
+
+---
+
+## 12. Technical Documentation
+
+### 12.1 System Requirements
+
+| Component            | Requirement                                    |
+|:---------------------|:-----------------------------------------------|
+| **R version**        | ≥ 4.0.0                                        |
+| **Operating System** | Windows 10+, macOS 10.15+, Linux               |
+| **RAM**              | ≥ 8 GB (16 GB recommended for MICE)            |
+| **Storage**          | ≥ 2 GB free space                              |
+
+### 12.2 R Package Dependencies
 
 ```r
-# Set working directory to Code folder
-setwd("path/to/Project/Code")
+# Core packages
+install.packages(c(
+  # Data manipulation
+  "tidyverse", "data.table",
+  
+  # Survival analysis
+  "survival", "survminer",
+  
+  # Multiple imputation
+  "mice", "miceadds",
+  
+  # Mixed models
+  "lme4", "performance",
+  
+  # Meta-analysis
+  "meta", "metafor",
+  
+  # Visualization
+  "ggplot2", "ggalluvial", "patchwork", "corrplot",
+  
+  # Tables
+  "tableone", "gtsummary", "flextable",
+  
+  # Parallel computing
+  "parallel", "foreach", "doParallel",
+  
+  # I/O
+  "haven", "writexl", "broom"
+))
+```
 
-# Run all analyses
+### 12.3 Running the Analysis
+
+```r
+# Option 1: Run complete pipeline
+setwd("path/to/Code")
 source("main_analysis.R")
 
-# Runtime: approximately 30-60 minutes depending on system
+# Option 2: Run individual scripts
+source("00_Functions_and_Setup.R")  # Required first
+source("01_Pooled_Descriptive.R")
+# source("02_MICE_Imputation.R")    # Optional, ~30-45 min
+source("03_Phi_ICC_Analysis.R")
+source("04_Pooled_Cox_Analysis.R")
+source("05_Sankey_Diagram.R")
+source("06_PAF_Analysis.R")
+source("07_Meta_Analysis.R")
+source("08_Methods_Parameters.R")
 ```
 
-### Option 2: Individual Scripts
+### 12.4 Estimated Runtime
 
-```r
-setwd("path/to/Project/Code")
-
-# Step 1: Setup (REQUIRED first)
-source("00_Functions_and_Setup.R")
-
-# Step 2: Choose analyses to run
-source("01_Pooled_Descriptive.R")   # ~2 min
-source("02_Phi_ICC_Analysis.R")     # ~1 min
-source("03_Pooled_Cox_Analysis.R")  # ~10 min
-source("04_Sankey_Diagram.R")       # ~5 min
-source("05_PAF_Analysis.R")         # ~5 min
-source("06_Meta_Analysis.R")        # ~10 min
-```
-
-### Option 3: Specific Cohort Analysis
-
-```r
-source("00_Functions_and_Setup.R")
-
-# Load specific cohort
-hrs_data <- load_cohort_data("HRS", type = "main")
-```
+| Script                          | Estimated Time   | Notes                      |
+|:--------------------------------|:-----------------|:---------------------------|
+| Full pipeline (excl. MICE)      | 15-20 minutes    | Depends on system          |
+| `02_MICE_Imputation.R`          | 30-45 minutes    | Computationally intensive  |
+| `03_Phi_ICC_Analysis.R`         | 3-5 minutes      | Parallel bootstrap         |
+| `04_Pooled_Cox_Analysis.R`      | 5-10 minutes     | Multiple models            |
+| `07_Meta_Analysis.R`            | 5-10 minutes     | Plot generation            |
 
 ---
 
-## 📊 Output Files
+## Version History
 
-### Summary Table
-
-| File | Content | Format |
-|------|---------|--------|
-| `Descriptive_Statistics.xlsx` | Baseline characteristics, lifestyle distributions | Excel |
-| `Phi_ICC_Analysis_Results.xlsx` | Phi coefficients, ICC values | Excel |
-| `Pooled_Cox_Results_Comprehensive.xlsx` | All Cox regression results | Excel |
-| `Sankey_Comprehensive_Results.xlsx` | Transition matrices, PPC-MM incidence | Excel |
-| `PAF_Analysis_Comprehensive.xlsx` | Individual and cumulative PAF | Excel |
-| `Meta_Analysis_Comprehensive.xlsx` | Meta-analysis results, heterogeneity | Excel |
-
-### Figures
-
-| Directory | Contents |
-|-----------|----------|
-| `Figures/Sankey/` | Sankey diagrams by cohort, pooled, and stratified |
-| `Figures/Forest/` | Forest plots for each outcome × exposure level |
-| `Figures/Funnel/` | Funnel plots for publication bias assessment |
-| `Figures/DoseResponse/` | Dose-response plots with confidence intervals |
+| Version | Date     | Author          | Changes                                                    |
+|:--------|:---------|:----------------|:-----------------------------------------------------------|
+| 1.0     | Dec 2024 | Analysis Team   | Initial release                                            |
+| 2.0     | Dec 2024 | Analysis Team   | Added MICE, updated covariates (region), Methods Parameters |
+| 2.1     | Dec 2024 | Analysis Team   | Script renumbering (00-08), professional README            |
 
 ---
 
-## 📖 Variable Definitions
+<div align="center">
 
-### Cohort-Specific Naming Convention
+<br>
 
-Variables use wave prefix `wX_` where X = baseline wave:
+**📧 Contact**
 
-| Cohort | Prefix | Examples |
-|--------|--------|----------|
-| CHARLS | `w1_` | `w1_unhealthy_drink`, `w1_unhealthy_score` |
-| ELSA | `w7_` | `w7_unhealthy_drink`, `w7_unhealthy_score` |
-| HRS | `w10_` | `w10_unhealthy_drink`, `w10_unhealthy_score` |
-| SHARE | `w4_` | `w4_unhealthy_drink`, `w4_unhealthy_score` |
-| MHAS | `w3_` | `w3_unhealthy_drink`, `w3_unhealthy_score` |
+For questions regarding this analysis, please contact the study team.
 
-These are automatically standardized during analysis.
-
-### Lifestyle Variables
-
-| Variable | Type | Definition |
-|----------|------|------------|
-| `unhealthy_drink` | Binary | Any alcohol consumption (1) vs none (0) |
-| `heavy_drink` | Binary | Heavy alcohol consumption (sensitivity) |
-| `unhealthy_smoke` | Binary | Ever smoker (1) vs never (0) |
-| `unhealthy_pa` | Binary | Physically inactive (1) vs active (0) |
-| `unhealthy_soc` | Binary | Socially isolated (1) vs engaged (0) |
-| `unhealthy_score` | Count (0-4) | Sum of 4 binary factors |
-| `unhealthy_score_heavy` | Count (0-4) | Using heavy_drink instead |
-
-### Health Domain Definitions
-
-| Domain | Variable | Definition |
-|--------|----------|------------|
-| **Physical (P1)** | `physical_base` | ≥1 of 7 chronic diseases |
-| **Psychological (P2)** | `psych_base` | CESD score above threshold |
-| **Cognitive (C)** | `cog_base` | Age-standardized Z-score < -1.5 SD |
-
-### Chronic Diseases (Physical Domain)
-1. Hypertension
-2. Diabetes
-3. Cancer
-4. Lung disease
-5. Heart disease
-6. Stroke
-7. Arthritis
-
-### PPC-MM Definition
-
-**PPC-MM** = ≥2 of 3 health domains affected at follow-up
+<br>
 
 ---
 
-## 📈 Statistical Methods
-
-### Cox Proportional Hazards Regression
-
-```
-h(t) = h₀(t) × exp(β₁X₁ + β₂X₂ + ... + βₖXₖ)
-```
-
-- **Time scale**: Months from baseline
-- **Event**: First occurrence of PPC-MM (or subtype)
-- **Censoring**: End of follow-up, death, or loss to follow-up
-- **Stratification**: By cohort (to account for baseline hazard differences)
-
-### Meta-Analysis
-
-- **Fixed-effects**: Inverse variance weighting
-- **Random-effects**: DerSimonian-Laird estimator
-- **Heterogeneity**:
-  - Q statistic (χ² test)
-  - I² (% variation due to heterogeneity)
-  - Tau² (between-study variance)
-
-### Population Attributable Fraction
-
-```
-PAF = Σ P_case(i) × (HR(i) - 1) / HR(i)
-```
-
-Sum over all exposed categories
-
-### P for Trend
-
-- Linear trend test across ordered categories
-- Exposure coded as continuous (0, 1, 2, 3)
+*Last updated: December 2024*
 
 ---
 
-## 📦 Dependencies
+**Authors for the code**
 
-### Required R Packages
 
-```r
-# Data manipulation
-tidyverse      # dplyr, tidyr, ggplot2, etc.
-data.table     # Efficient large data handling
 
-# Survival analysis
-survival       # Cox models
-survminer      # Survival visualization
+**Hexiao Ding** | Department of Health Technology and Informatics, The Hong Kong Polytechnic University
 
-# Mixed models
-lme4           # Mixed effects models
-performance    # ICC calculation
-
-# Correlation
-psych          # Phi coefficient
-corrplot       # Correlation heatmaps
-
-# Meta-analysis
-meta           # Meta-analysis functions
-metafor        # Advanced meta-analysis
-
-# Tables
-tableone       # Baseline characteristics
-gtsummary      # Professional tables
-flextable      # Export to Word/Excel
-
-# I/O
-haven          # SPSS/Stata files
-writexl        # Excel output
-broom          # Tidy model outputs
-
-# Visualization
-ggplot2        # Grammar of graphics
-ggalluvial     # Sankey diagrams
-scales         # Axis formatting
-patchwork      # Combine plots
-ggrepel        # Label placement
-```
-
-All packages are auto-installed if not present.
+**Hongtao Cheng** | School of Nursing, Sun Yat-sen University
 
 ---
 
-## 👥 Authors
+**Supervisors**
 
-**Hexiao Ding**  
-The Hong Kong Polytechnic University (PolyU)
 
-**Hongtao Cheng**  
-Sun Yat-sen University (SYSU)
 
----
+**Prof. Jung Sun Yoo** | Department of Health Technology and Informatics, The Hong Kong Polytechnic University
 
-## 👨‍🏫 Supervisors
+**Prof. Jung-E Zhang** | School of Nursing, Sun Yat-sen University
 
-- **Prof. Jung Sun Yoo** - The Hong Kong Polytechnic University
-- **Prof. Jung-E Zhang** - Sun Yat-sen University
-- **Prof. Wei Xia** - Sun Yat-sen University
+**Prof. Wei Xia** | School of Nursing, Sun Yat-sen University
 
----
+<br>
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-### Data Sources
-- **Gateway to Global Aging Data** ([g2aging.org](https://g2aging.org))
-- **CHARLS**: Peking University
-- **ELSA**: University College London
-- **HRS**: University of Michigan
-- **SHARE**: Max Planck Institute
-- **MHAS**: University of Texas Medical Branch
-
-### Funding
-[Add funding information if applicable]
-
-### Software
-- R Core Team (2024). R: A language and environment for statistical computing.
-- RStudio Team (2024). RStudio: Integrated Development Environment for R.
-
----
-
-*Last updated: December 2025*
+</div>
