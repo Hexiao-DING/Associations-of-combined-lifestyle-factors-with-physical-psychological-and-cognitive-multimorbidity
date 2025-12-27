@@ -672,8 +672,9 @@ Where:
 **Rationale**: The primary analysis combines 3 and 4 unhealthy factors (3+). S1 examines whether the effect saturates at 3 factors or continues to increase.
 
 
-Primary:    0 (ref) ──► 1 ──► 2 ──► 3+
-S1:         0 (ref) ──► 1 ──► 2 ──► 3 ──► 4
+**Primary**:    0 (ref) ──► 1 ──► 2 ──► 3+
+
+**S1**:         0 (ref) ──► 1 ──► 2 ──► 3 ──► 4
 
 
 ### 9.3 S2: Heavy Drinking Definition
