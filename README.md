@@ -521,16 +521,11 @@ SHARE:    Wave 4 (2011) → Wave 5 → Wave 6 → Wave 7 → Wave 8            [
 
 **Covariate Selection Rationale (DAG-Informed)**
 
+
 <div align="center">
-
-```
-
-<p float="left">
   <img src="DAG_01.png" alt="DAG示意图1" width="45%" />
   <img src="DAG_02.png" alt="DAG示意图2" width="45%" />
-</p>
-        
-```
+</div>
 
 </div>
 
