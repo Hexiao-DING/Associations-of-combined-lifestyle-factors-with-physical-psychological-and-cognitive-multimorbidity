@@ -527,8 +527,6 @@ SHARE:    Wave 4 (2011) → Wave 5 → Wave 6 → Wave 7 → Wave 8            [
   <img src="DAG_02.png" alt="DAG示意图2" width="45%" />
 </div>
 
-</div>
-
 **Covariate Specifications**
 
 | Variable         | Type        | Categories/Units                          | Role           | Adjustment Rationale                          |
@@ -671,11 +669,15 @@ Where:
 
 **Rationale**: The primary analysis combines 3 and 4 unhealthy factors (3+). S1 examines whether the effect saturates at 3 factors or continues to increase.
 
+<div align="center">
 
-**Primary**:    0 (ref) ──► 1 ──► 2 ──► 3+
+```
+Primary:    0 (ref) ──► 1 ──► 2 ──► 3+
 
-**S1**:         0 (ref) ──► 1 ──► 2 ──► 3 ──► 4
+S1:         0 (ref) ──► 1 ──► 2 ──► 3 ──► 4
+```
 
+</div>
 
 ### 9.3 S2: Heavy Drinking Definition
 
@@ -830,7 +832,7 @@ S4:         Baseline ────── [Exclude Wave 2] ─────► Wave
 ```
 Output/
 │
-├── 📊 Excel Workbooks/
+├── 📊 Excel Workbooks (Main Results)/
 │   ├── Descriptive_Statistics.xlsx
 │   ├── Phi_ICC_Analysis_Results.xlsx
 │   ├── Pooled_Cox_Results_Comprehensive.xlsx
@@ -839,6 +841,52 @@ Output/
 │   ├── Meta_Analysis_Comprehensive.xlsx
 │   └── Methods_Parameters.xlsx
 │
+├── 📁 CSV Files (Detailed Results)/
+│   │
+│   ├── [Descriptive]
+│   │   ├── Table1_by_Cohort.csv
+│   │   └── Pooled_main_data.csv
+│   │
+│   ├── [Phi/ICC]
+│   │   ├── Phi_Coefficients_Complete.csv
+│   │   └── ICC_Results_Complete.csv
+│   │
+│   ├── [Cox Regression]
+│   │   ├── Pooled_Cox_All_Results.csv          (All results combined)
+│   │   ├── Cox_Primary_Individual_Factors.csv  (Primary: Individual factors)
+│   │   ├── Cox_Primary_Cumulative_4Level.csv   (Primary: Cumulative 0/1/2/3+)
+│   │   ├── Cox_S1_5Level_Categories.csv        (Sensitivity 1: 5-level)
+│   │   ├── Cox_S2a_HeavyDrink_Individual.csv   (Sensitivity 2: Heavy drink)
+│   │   ├── Cox_S2b_HeavyDrink_Cumulative.csv   (Sensitivity 2: Heavy drink)
+│   │   ├── Cox_S3_MICE_Individual.csv          (Sensitivity 3: MICE)
+│   │   ├── Cox_S3_MICE_Cumulative.csv          (Sensitivity 3: MICE)
+│   │   ├── Cox_S4_Drop1st.csv                  (Sensitivity 4: Drop first wave)
+│   │   └── Cox_Summary_HR_CI.csv               (Publication format: HR (95% CI))
+│   │
+│   ├── [PAF Analysis]
+│   │   ├── PAF_Analysis_All_Results.csv        (All results combined)
+│   │   ├── PAF_Primary_Individual.csv
+│   │   ├── PAF_Primary_Cumulative.csv
+│   │   ├── PAF_S2_HeavyDrink_Individual.csv
+│   │   ├── PAF_S2_HeavyDrink_Cumulative.csv
+│   │   ├── PAF_S4_Drop1st.csv
+│   │   └── PAF_Summary_Overall.csv             (Publication format)
+│   │
+│   ├── [Meta-Analysis]
+│   │   ├── Meta_Analysis_Summary.csv           (All results combined)
+│   │   ├── Meta_Study_Characteristics.csv      (Cohort characteristics)
+│   │   ├── Meta_Study_Specific_HR.csv          (Cohort-specific HRs for MA)
+│   │   ├── Meta_Primary_Summary.csv
+│   │   ├── Meta_S1_5Level_Summary.csv
+│   │   ├── Meta_S2_HeavyDrink_Summary.csv
+│   │   ├── Meta_LeaveOneOut.csv                (Leave-one-out sensitivity)
+│   │   ├── Meta_EggersTest.csv                 (Publication bias test)
+│   │   └── Meta_Summary_Publication.csv        (Publication format)
+│   │
+│   └── [Sankey]
+│       ├── Sankey_All_Transitions.csv
+│       └── Sankey_PPCMM_Summary.csv
+│
 ├── 📈 Figures/
 │   ├── Sankey/
 │   │   ├── Sankey_[Cohort]_Overall.pdf/png
@@ -846,22 +894,19 @@ Output/
 │   │   ├── Sankey_Pooled_Overall.pdf/png
 │   │   └── Sankey_Legend.pdf/png
 │   ├── Forest/
-│   │   └── Forest_[Outcome]_[Level].pdf/png
+│   │   └── Forest_[Analysis]_[Outcome]_[Level].pdf/png
 │   ├── Funnel/
-│   │   └── Funnel_[Outcome]_[Level].pdf/png
+│   │   └── Funnel_[Analysis]_[Outcome]_[Level].pdf/png
 │   └── DoseResponse/
-│       └── DoseResponse_*.png
+│       ├── DoseResponse_4level_*.png
+│       ├── DoseResponse_5level_*.png
+│       └── DoseResponse_Combined_AllOutcomes.pdf/png
 │
-├── 📁 Supplementary CSV Files/
-│   ├── Table1_by_Cohort.csv
-│   ├── Phi_Coefficients_Complete.csv
-│   ├── ICC_Results_Complete.csv
-│   ├── Study_Specific_HR_Results.csv
-│   └── Sankey_All_Transitions.csv
-│
-└── 📦 R Objects/
+└── 📦 R Objects (for further analysis)/
     ├── Pooled_main_data.rds
     ├── Pooled_cox_results.rds
+    ├── PAF_results.rds
+    ├── Meta_analysis_objects.rds
     └── Pooled_mice_imputed.rds
 ```
 
@@ -976,27 +1021,7 @@ For questions regarding this analysis, please contact the study team.
 
 *Last updated: December 2024*
 
----
-
-**Authors for the code**
-
-
-
-**Hexiao Ding** | Department of Health Technology and Informatics, The Hong Kong Polytechnic University
-
-**Hongtao Cheng** | School of Nursing, Sun Yat-sen University
-
----
-
-**Supervisors**
-
-
-
-**Prof. Jung Sun Yoo** | Department of Health Technology and Informatics, The Hong Kong Polytechnic University
-
-**Prof. Jung-E Zhang** | School of Nursing, Sun Yat-sen University
-
-**Prof. Wei Xia** | School of Nursing, Sun Yat-sen University
+**Jung Sun Lab** | Department of Public Health
 
 <br>
 
