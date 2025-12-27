@@ -525,7 +525,9 @@ SHARE:    Wave 4 (2011) → Wave 5 → Wave 6 → Wave 7 → Wave 8            [
 
 ```
 
-<img width="1916" height="1296" alt="adba5e7a215efb56008ed736b786c45f" src="https://github.com/user-attachments/assets/c714804a-013e-4ccd-97cc-7454905c001f" />
+
+<img width="1916" height="1296" alt="Weixin Image_20251227221613_5300_104" src="https://github.com/user-attachments/assets/b1d1866b-fee1-4c07-b43b-e75e7b4c9fc5" />
+
         
 ```
 
