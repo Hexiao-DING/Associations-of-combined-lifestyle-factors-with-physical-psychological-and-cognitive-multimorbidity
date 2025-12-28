@@ -159,7 +159,7 @@ While individual lifestyle factors have been associated with various health outc
 
 1. The **cumulative effect** of multiple lifestyle factors on cross-domain multimorbidity
 2. The **dose-response relationship** between lifestyle burden and PPC-MM risk
-3. The **population-level impact** (PAF) of unhealthy lifestyles on PPC-MM
+3. The **population-level impact** (Population Attributable Fraction, PAF) of unhealthy lifestyles on PPC-MM
 
 ---
 
