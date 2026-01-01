@@ -1048,10 +1048,10 @@ source("09_Methods_Parameters.R")
 
 | Version | Date       | Author          | Changes                                                             |
 |:--------|:-----------|:----------------|:--------------------------------------------------------------------|
-| 1.0     | Dec 2024   | Analysis Team   | Initial release                                                     |
-| 2.0     | Dec 2024   | Analysis Team   | Added MICE, updated covariates (region), Methods Parameters         |
-| 2.1     | Dec 2024   | Analysis Team   | Script renumbering (00-09), added Subgroup Analysis module          |
-| 2.2     | Jan 2025   | Analysis Team   | Professional README update, comprehensive output documentation      |
+| 1.0     | Dec 2025   | Analysis Team   | Initial release                                                     |
+| 2.0     | Dec 2025   | Analysis Team   | Added MICE, updated covariates (region), Methods Parameters         |
+| 2.1     | Dec 2025   | Analysis Team   | Script renumbering (00-09), added Subgroup Analysis module          |
+| 2.2     | Jan 2026   | Analysis Team   | Professional README update, comprehensive output documentation      |
 
 ---
 
