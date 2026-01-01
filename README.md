@@ -73,7 +73,7 @@ the physical, psychological, and cognitive health domains
 | **Exposure**         | Cumulative unhealthy lifestyle score (0-4): drinking, smoking, physical inactivity, social isolation |
 | **Primary Outcome**  | Incident Physical-Psychological-Cognitive Multimorbidity (PPC-MM)                            |
 | **Sample Size**      | N = 31,302 participants free of PPC-MM at baseline                                           |
-| **Follow-up**        | Up to 10 years (median ~6 years)                                                             |
+| **Follow-up**        | 5-7 years (2011-2020, varying by cohort)                                                     |
 | **Analysis**         | Pooled Cox regression with cohort stratification + Random-effects meta-analysis              |
 
 ### 1.2 PICO Framework
@@ -258,53 +258,59 @@ To investigate the association between cumulative unhealthy lifestyle factors an
 <th align="left">Full Name</th>
 <th align="center">Country/Region</th>
 <th align="center">Baseline Wave</th>
+<th align="center">Study Period</th>
 <th align="right">N (Main)</th>
 <th align="left">Geographic Region</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><b>CHARLS</b></td>
-<td align="left">China Health and Retirement Longitudinal Study</td>
-<td align="center">🇨🇳 China</td>
-<td align="center">Wave 1 (2011)</td>
-<td align="right">2,322</td>
-<td align="left">Eastern Asia</td>
+<td align="left"><b>HRS</b></td>
+<td align="left">Health and Retirement Study</td>
+<td align="center">🇺🇸 USA</td>
+<td align="center">Wave 12 (2014)</td>
+<td align="center">2014-2019</td>
+<td align="right">2,786</td>
+<td align="left">Northern America</td>
 </tr>
 <tr>
 <td align="left"><b>ELSA</b></td>
 <td align="left">English Longitudinal Study of Ageing</td>
 <td align="center">🇬🇧 England</td>
-<td align="center">Wave 1 (2002)</td>
+<td align="center">Wave 7 (2014)</td>
+<td align="center">2014-2019</td>
 <td align="right">4,385</td>
 <td align="left">Northern Europe</td>
-</tr>
-<tr>
-<td align="left"><b>HRS</b></td>
-<td align="left">Health and Retirement Study</td>
-<td align="center">🇺🇸 USA</td>
-<td align="center">Wave 1 (1992)</td>
-<td align="right">2,786</td>
-<td align="left">Northern America</td>
-</tr>
-<tr>
-<td align="left"><b>MHAS</b></td>
-<td align="left">Mexican Health and Aging Study</td>
-<td align="center">🇲🇽 Mexico</td>
-<td align="center">Wave 1 (2001)</td>
-<td align="right">7,870</td>
-<td align="left">Central America</td>
 </tr>
 <tr>
 <td align="left"><b>SHARE</b></td>
 <td align="left">Survey of Health, Ageing and Retirement in Europe</td>
 <td align="center">🇪🇺 16 Countries</td>
-<td align="center">Wave 1 (2004)</td>
+<td align="center">Wave 6 (2015)</td>
+<td align="center">2015-2020</td>
 <td align="right">13,488</td>
 <td align="left">Multiple (Europe)</td>
 </tr>
 <tr>
-<td align="left" colspan="4"><b>TOTAL</b></td>
+<td align="left"><b>MHAS</b></td>
+<td align="left">Mexican Health and Aging Study</td>
+<td align="center">🇲🇽 Mexico</td>
+<td align="center">Wave 3 (2012)</td>
+<td align="center">2012-2019</td>
+<td align="right">7,870</td>
+<td align="left">Central America</td>
+</tr>
+<tr>
+<td align="left"><b>CHARLS</b></td>
+<td align="left">China Health and Retirement Longitudinal Study</td>
+<td align="center">🇨🇳 China</td>
+<td align="center">Wave 1 (2011)</td>
+<td align="center">2011-2018</td>
+<td align="right">2,322</td>
+<td align="left">Eastern Asia</td>
+</tr>
+<tr>
+<td align="left" colspan="5"><b>TOTAL</b></td>
 <td align="right"><b>31,302</b></td>
 <td align="left"><b>20 Countries</b></td>
 </tr>
@@ -327,11 +333,11 @@ To investigate the association between cumulative unhealthy lifestyle factors an
 ```
 Timeline: Baseline ───────────────────────────────────────────► End of Follow-up
 
-CHARLS:   Wave 1 (2011) → Wave 2 → Wave 3 → Wave 4                      [8 years]
-ELSA:     Wave 1 (2002) → Wave 2 → ... → Wave 9                        [18 years]
-HRS:      Wave 1 (1992) → Wave 2 → ... → Wave 14                       [28 years]
-MHAS:     Wave 1 (2001) → Wave 2 → ... → Wave 5                        [20 years]
-SHARE:    Wave 1 (2004) → Wave 2 → ... → Wave 8                        [16 years]
+HRS:      Wave 12 (2014) → Wave 13 → Wave 14                            [5 years]
+ELSA:     Wave 7 (2014) → Wave 8 → Wave 9                               [5 years]
+SHARE:    Wave 6 (2015) → Wave 7 → Wave 8                               [5 years]
+MHAS:     Wave 3 (2012) → Wave 4 → Wave 5                               [7 years]
+CHARLS:   Wave 1 (2011) → Wave 2 → Wave 3 → Wave 4                      [7 years]
 ```
 
 </div>
@@ -1069,7 +1075,7 @@ For questions regarding this analysis, please contact the study team.
 
 *Last updated: January 2026*
 
-**Heixao Ding** | Department of Health Technology and Informatics, The Hong Kong Polytechnic University
+**Hexiao Ding** | Department of Health Technology and Informatics, The Hong Kong Polytechnic University
 
 **Hongtao Cheng** | School of Nursing, Sun Yat-sen University
 
