@@ -178,6 +178,7 @@ To investigate the association between cumulative unhealthy lifestyle factors an
 | 2c   | Evaluate PPC-MM subtype-specific associations    | Separate models for P1P2, P1C, P2C, P1P2C    |
 | 2d   | Estimate population-level impact                 | Population Attributable Fraction (PAF)       |
 | 2e   | Assess heterogeneity across cohorts              | Random-effects meta-analysis                 |
+| 2f   | Age and sex stratification                       | Subgroup analysis with interaction tests     |
 
 ### 3.3 A Priori Hypotheses
 
@@ -274,7 +275,7 @@ To investigate the association between cumulative unhealthy lifestyle factors an
 <td align="left"><b>ELSA</b></td>
 <td align="left">English Longitudinal Study of Ageing</td>
 <td align="center">🇬🇧 England</td>
-<td align="center">Wave 7 (2014)</td>
+<td align="center">Wave 1 (2002)</td>
 <td align="right">4,385</td>
 <td align="left">Northern Europe</td>
 </tr>
@@ -282,7 +283,7 @@ To investigate the association between cumulative unhealthy lifestyle factors an
 <td align="left"><b>HRS</b></td>
 <td align="left">Health and Retirement Study</td>
 <td align="center">🇺🇸 USA</td>
-<td align="center">Wave 10 (2010)</td>
+<td align="center">Wave 1 (1992)</td>
 <td align="right">2,786</td>
 <td align="left">Northern America</td>
 </tr>
@@ -290,7 +291,7 @@ To investigate the association between cumulative unhealthy lifestyle factors an
 <td align="left"><b>MHAS</b></td>
 <td align="left">Mexican Health and Aging Study</td>
 <td align="center">🇲🇽 Mexico</td>
-<td align="center">Wave 3 (2012)</td>
+<td align="center">Wave 1 (2001)</td>
 <td align="right">7,870</td>
 <td align="left">Central America</td>
 </tr>
@@ -298,7 +299,7 @@ To investigate the association between cumulative unhealthy lifestyle factors an
 <td align="left"><b>SHARE</b></td>
 <td align="left">Survey of Health, Ageing and Retirement in Europe</td>
 <td align="center">🇪🇺 16 Countries</td>
-<td align="center">Wave 4 (2011)</td>
+<td align="center">Wave 1 (2004)</td>
 <td align="right">13,488</td>
 <td align="left">Multiple (Europe)</td>
 </tr>
@@ -327,10 +328,10 @@ To investigate the association between cumulative unhealthy lifestyle factors an
 Timeline: Baseline ───────────────────────────────────────────► End of Follow-up
 
 CHARLS:   Wave 1 (2011) → Wave 2 → Wave 3 → Wave 4                      [8 years]
-ELSA:     Wave 7 (2014) → Wave 8 → Wave 9                               [6 years]
-HRS:      Wave 10 (2010) → Wave 11 → Wave 12 → Wave 13 → Wave 14       [10 years]
-MHAS:     Wave 3 (2012) → Wave 4 → Wave 5                               [6 years]
-SHARE:    Wave 4 (2011) → Wave 5 → Wave 6 → Wave 7 → Wave 8            [10 years]
+ELSA:     Wave 1 (2002) → Wave 2 → ... → Wave 9                        [18 years]
+HRS:      Wave 1 (1992) → Wave 2 → ... → Wave 14                       [28 years]
+MHAS:     Wave 1 (2001) → Wave 2 → ... → Wave 5                        [20 years]
+SHARE:    Wave 1 (2004) → Wave 2 → ... → Wave 8                        [16 years]
 ```
 
 </div>
@@ -521,7 +522,6 @@ SHARE:    Wave 4 (2011) → Wave 5 → Wave 6 → Wave 7 → Wave 8            [
 
 **Covariate Selection Rationale (DAG-Informed)**
 
-
 <div align="center">
   <img src="DAG_01.png" alt="DAG示意图1" width="45%" />
   <img src="DAG_02.png" alt="DAG示意图2" width="45%" />
@@ -564,6 +564,7 @@ coxph(
 | Descriptive     | TableOne, frequencies     | R (tableone)        | Baseline characteristics   |
 | Correlation     | Phi coefficient, ICC      | R (psych, lme4)     | Lifestyle factor correlations |
 | Primary         | Cox regression (pooled)   | R (survival)        | Main effect estimates      |
+| Subgroup        | Age/Sex stratification    | R (survival)        | Effect modification        |
 | Secondary       | Meta-analysis             | R (meta, metafor)   | Heterogeneity assessment   |
 | Exploratory     | PAF analysis              | R (custom)          | Population impact          |
 
@@ -628,7 +629,27 @@ coxph(
 | **P-value**   | Two-sided               | Statistical significance (α=0.05) |
 | **P-trend**   | Ordinal exposure test   | Dose-response evidence            |
 
-### 8.5 Meta-Analysis
+### 8.5 Subgroup Analysis
+
+**Age Stratification**
+
+| Age Group | N (Approx) | Purpose                                |
+|:----------|:-----------|:---------------------------------------|
+| 50-59     | 11,126     | Young-old adults                       |
+| 60-69     | 11,276     | Middle-old adults                      |
+| 70-79     | 7,330      | Old-old adults                         |
+| 80+       | 2,249      | Oldest-old adults                      |
+
+**Sex Stratification**
+
+| Sex    | N (Approx) | Purpose                                |
+|:-------|:-----------|:---------------------------------------|
+| Men    | 15,263     | Male-specific effects                  |
+| Women  | 16,718     | Female-specific effects                |
+
+**Interaction Tests**: P for interaction calculated for age×lifestyle and sex×lifestyle
+
+### 8.6 Meta-Analysis
 
 | Parameter                   | Method/Value                              |
 |:----------------------------|:------------------------------------------|
@@ -640,7 +661,7 @@ coxph(
 | **Sensitivity analysis**    | Leave-one-out (jackknife)                 |
 | **Publication bias**        | Egger's regression, Begg's rank test, Funnel plots |
 
-### 8.6 Population Attributable Fraction (PAF)
+### 8.7 Population Attributable Fraction (PAF)
 
 **Miettinen Formula** (appropriate for cohort studies):
 
@@ -695,7 +716,7 @@ S1:         0 (ref) ──► 1 ──► 2 ──► 3 ──► 4
 | Parameter            | Value                               |
 |:---------------------|:------------------------------------|
 | **Method**           | 2-Level MICE (multilevel)           |
-| **Level 2 cluster**  | Country (20 clusters)               |
+| **Level 2 cluster**  | Cohort (5 clusters)                 |
 | **Imputations**      | m = 20                              |
 | **Iterations**       | maxit = 30                          |
 | **Pooling**          | Rubin's rules                       |
@@ -707,7 +728,7 @@ S1:         0 (ref) ──► 1 ──► 2 ──► 3 ──► 4
 <div align="center">
 
 ```
-Primary:    Baseline ─────────────────────────────► All follow-up waves
+Primary:    Baseline ─────────────────────────────────► All follow-up waves
 S4:         Baseline ────── [Exclude Wave 2] ─────► Wave 3 onwards
 ```
 
@@ -748,7 +769,7 @@ S4:         Baseline ────── [Exclude Wave 2] ─────► Wave
 ║   ┌───────────────────────────────────────────────────────────────────────┐   ║
 ║   │  02_MICE_Imputation.R [Optional]                                      │   ║
 ║   │  ├── Missing data assessment                                          │   ║
-║   │  ├── 2-Level MICE (country clusters)                                  │   ║
+║   │  ├── 2-Level MICE (cohort clusters)                                   │   ║
 ║   │  └── Output: Pooled_mice_imputed.rds                                  │   ║
 ║   └───────────────────────────────────────────────────────────────────────┘   ║
 ║                                      │                                        ║
@@ -772,7 +793,18 @@ S4:         Baseline ────── [Exclude Wave 2] ─────► Wave
 ║                                      │                                        ║
 ║                                      ▼                                        ║
 ║   ┌───────────────────────────────────────────────────────────────────────┐   ║
-║   │  05_Sankey_Diagram.R                                                  │   ║
+║   │  05_Subgroup_Analysis.R                                               │   ║
+║   │  ├── Age-stratified Cox (50-59, 60-69, 70-79, 80+)                    │   ║
+║   │  ├── Sex-stratified Cox (Men, Women)                                  │   ║
+║   │  ├── Age×Lifestyle and Sex×Lifestyle interaction tests               │   ║
+║   │  ├── Age-stratified PAF (Individual and Cumulative)                   │   ║
+║   │  ├── Sex-stratified PAF (Individual and Cumulative)                   │   ║
+║   │  └── Output: Subgroup_Analysis_Complete.xlsx                          │   ║
+║   └───────────────────────────────────────────────────────────────────────┘   ║
+║                                      │                                        ║
+║                                      ▼                                        ║
+║   ┌───────────────────────────────────────────────────────────────────────┐   ║
+║   │  06_Sankey_Diagram.R                                                  │   ║
 ║   │  ├── Health state transitions (baseline → follow-up)                  │   ║
 ║   │  ├── Stratified by lifestyle category                                 │   ║
 ║   │  └── Output: Sankey_*.pdf/png                                         │   ║
@@ -780,7 +812,7 @@ S4:         Baseline ────── [Exclude Wave 2] ─────► Wave
 ║                                      │                                        ║
 ║                                      ▼                                        ║
 ║   ┌───────────────────────────────────────────────────────────────────────┐   ║
-║   │  06_PAF_Analysis.R                                                    │   ║
+║   │  07_PAF_Analysis.R                                                    │   ║
 ║   │  ├── Individual factor PAFs                                           │   ║
 ║   │  ├── Cumulative PAF                                                   │   ║
 ║   │  └── Output: PAF_Analysis_Comprehensive.xlsx                          │   ║
@@ -788,7 +820,7 @@ S4:         Baseline ────── [Exclude Wave 2] ─────► Wave
 ║                                      │                                        ║
 ║                                      ▼                                        ║
 ║   ┌───────────────────────────────────────────────────────────────────────┐   ║
-║   │  07_Meta_Analysis.R                                                   │   ║
+║   │  08_Meta_Analysis.R                                                   │   ║
 ║   │  ├── Cohort-specific Cox models                                       │   ║
 ║   │  ├── Random-effects meta-analysis                                     │   ║
 ║   │  ├── Heterogeneity assessment                                         │   ║
@@ -798,7 +830,7 @@ S4:         Baseline ────── [Exclude Wave 2] ─────► Wave
 ║                                      │                                        ║
 ║                                      ▼                                        ║
 ║   ┌───────────────────────────────────────────────────────────────────────┐   ║
-║   │  08_Methods_Parameters.R                                              │   ║
+║   │  09_Methods_Parameters.R                                              │   ║
 ║   │  ├── Export all statistical parameters                                │   ║
 ║   │  └── Output: Methods_Parameters.xlsx (11 sheets)                      │   ║
 ║   └───────────────────────────────────────────────────────────────────────┘   ║
@@ -817,10 +849,11 @@ S4:         Baseline ────── [Exclude Wave 2] ─────► Wave
 | `02_MICE_Imputation.R`        | 2-Level multiple imputation                      | mice, miceadds (2l.pmm)           | `Pooled_mice_imputed.rds`                |
 | `03_Phi_ICC_Analysis.R`       | Correlation and clustering                       | Bootstrap, LRT, Bonferroni        | `Phi_ICC_Analysis_Results.xlsx`          |
 | `04_Pooled_Cox_Analysis.R`    | Cox proportional hazards                         | coxph, strata(), P-trend          | `Pooled_Cox_Results_Comprehensive.xlsx`  |
-| `05_Sankey_Diagram.R`         | Health state transitions                         | ggalluvial                        | `Sankey_*.pdf/png`                       |
-| `06_PAF_Analysis.R`           | Population attributable fraction                 | Miettinen formula, Bootstrap CI   | `PAF_Analysis_Comprehensive.xlsx`        |
-| `07_Meta_Analysis.R`          | Meta-analysis across cohorts                     | DerSimonian-Laird, I², Egger's    | `Meta_Analysis_Comprehensive.xlsx`       |
-| `08_Methods_Parameters.R`     | Export analysis parameters                       | Documentation                     | `Methods_Parameters.xlsx`                |
+| `05_Subgroup_Analysis.R`      | Age/Sex stratification, Interaction tests        | coxph, PAF calculation            | `Subgroup_Analysis_Complete.xlsx`        |
+| `06_Sankey_Diagram.R`         | Health state transitions                         | ggalluvial                        | `Sankey_*.pdf/png`                       |
+| `07_PAF_Analysis.R`           | Population attributable fraction                 | Miettinen formula, Bootstrap CI   | `PAF_Analysis_Comprehensive.xlsx`        |
+| `08_Meta_Analysis.R`          | Meta-analysis across cohorts                     | DerSimonian-Laird, I², Egger's    | `Meta_Analysis_Comprehensive.xlsx`       |
+| `09_Methods_Parameters.R`     | Export analysis parameters                       | Documentation                     | `Methods_Parameters.xlsx`                |
 | `main_analysis.R`             | Master script                                    | Sequential execution, logging     | Console output                           |
 
 ---
@@ -836,6 +869,7 @@ Output/
 │   ├── Descriptive_Statistics.xlsx
 │   ├── Phi_ICC_Analysis_Results.xlsx
 │   ├── Pooled_Cox_Results_Comprehensive.xlsx
+│   ├── Subgroup_Analysis_Complete.xlsx
 │   ├── Sankey_Comprehensive_Results.xlsx
 │   ├── PAF_Analysis_Comprehensive.xlsx
 │   ├── Meta_Analysis_Comprehensive.xlsx
@@ -852,36 +886,45 @@ Output/
 │   │   └── ICC_Results_Complete.csv
 │   │
 │   ├── [Cox Regression]
-│   │   ├── Pooled_Cox_All_Results.csv          (All results combined)
-│   │   ├── Cox_Primary_Individual_Factors.csv  (Primary: Individual factors)
-│   │   ├── Cox_Primary_Cumulative_4Level.csv   (Primary: Cumulative 0/1/2/3+)
-│   │   ├── Cox_S1_5Level_Categories.csv        (Sensitivity 1: 5-level)
-│   │   ├── Cox_S2a_HeavyDrink_Individual.csv   (Sensitivity 2: Heavy drink)
-│   │   ├── Cox_S2b_HeavyDrink_Cumulative.csv   (Sensitivity 2: Heavy drink)
-│   │   ├── Cox_S3_MICE_Individual.csv          (Sensitivity 3: MICE)
-│   │   ├── Cox_S3_MICE_Cumulative.csv          (Sensitivity 3: MICE)
-│   │   ├── Cox_S4_Drop1st.csv                  (Sensitivity 4: Drop first wave)
-│   │   └── Cox_Summary_HR_CI.csv               (Publication format: HR (95% CI))
+│   │   ├── Pooled_Cox_All_Results.csv
+│   │   ├── Cox_Primary_Individual_Factors.csv
+│   │   ├── Cox_Primary_Cumulative_4Level.csv
+│   │   ├── Cox_S1_5Level_Categories.csv
+│   │   ├── Cox_S2a_HeavyDrink_Individual.csv
+│   │   ├── Cox_S2b_HeavyDrink_Cumulative.csv
+│   │   ├── Cox_S3_MICE_Individual.csv
+│   │   ├── Cox_S3_MICE_Cumulative.csv
+│   │   ├── Cox_S4_Drop1st.csv
+│   │   └── Cox_Summary_HR_CI.csv
+│   │
+│   ├── [Subgroup Analysis]
+│   │   ├── Cox_Age_Stratified.csv
+│   │   ├── Cox_Sex_Stratified.csv
+│   │   ├── Cox_Interaction_Analysis.csv
+│   │   ├── PAF_Age_Stratified_Individual.csv
+│   │   ├── PAF_Age_Stratified_Cumulative.csv
+│   │   ├── PAF_Sex_Stratified_Individual.csv
+│   │   └── PAF_Sex_Stratified_Cumulative.csv
 │   │
 │   ├── [PAF Analysis]
-│   │   ├── PAF_Analysis_All_Results.csv        (All results combined)
+│   │   ├── PAF_Analysis_All_Results.csv
 │   │   ├── PAF_Primary_Individual.csv
 │   │   ├── PAF_Primary_Cumulative.csv
 │   │   ├── PAF_S2_HeavyDrink_Individual.csv
 │   │   ├── PAF_S2_HeavyDrink_Cumulative.csv
 │   │   ├── PAF_S4_Drop1st.csv
-│   │   └── PAF_Summary_Overall.csv             (Publication format)
+│   │   └── PAF_Summary_Overall.csv
 │   │
 │   ├── [Meta-Analysis]
-│   │   ├── Meta_Analysis_Summary.csv           (All results combined)
-│   │   ├── Meta_Study_Characteristics.csv      (Cohort characteristics)
-│   │   ├── Meta_Study_Specific_HR.csv          (Cohort-specific HRs for MA)
+│   │   ├── Meta_Analysis_Summary.csv
+│   │   ├── Meta_Study_Characteristics.csv
+│   │   ├── Meta_Study_Specific_HR.csv
 │   │   ├── Meta_Primary_Summary.csv
 │   │   ├── Meta_S1_5Level_Summary.csv
 │   │   ├── Meta_S2_HeavyDrink_Summary.csv
-│   │   ├── Meta_LeaveOneOut.csv                (Leave-one-out sensitivity)
-│   │   ├── Meta_EggersTest.csv                 (Publication bias test)
-│   │   └── Meta_Summary_Publication.csv        (Publication format)
+│   │   ├── Meta_LeaveOneOut.csv
+│   │   ├── Meta_EggersTest.csv
+│   │   └── Meta_Summary_Publication.csv
 │   │
 │   └── [Sankey]
 │       ├── Sankey_All_Transitions.csv
@@ -916,6 +959,7 @@ Output/
 |:---------------------------------------|:---------------------------------------------------------|:------------------------|
 | `Methods_Parameters.xlsx`              | Study_Overview, Cohort_Details, MICE_Parameters, Cox_Parameters, Exposure_Definitions, Outcome_Definitions, PhiICC_Parameters, Meta_Parameters, PAF_Parameters, Sensitivity_Analyses, Sankey_Parameters | Methods section writing |
 | `Pooled_Cox_Results_Comprehensive.xlsx`| Primary_Individual, Primary_Cumulative, S1_5Level, S2_HeavyDrink, S3_MICE, S4_Drop1st | Main results tables     |
+| `Subgroup_Analysis_Complete.xlsx`      | Cox_Age_Stratified, Cox_Sex_Stratified, Cox_Interaction, PAF_Age_Individual, PAF_Age_Cumulative, PAF_Sex_Individual, PAF_Sex_Cumulative | Subgroup analysis       |
 | `Meta_Analysis_Comprehensive.xlsx`     | Study_Characteristics, MA_Summary_All, Leave_One_Out, Eggers_Test | Meta-analysis reporting |
 | `Phi_ICC_Analysis_Results.xlsx`        | Phi_Summary, Phi_Matrix, ICC_Summary, Interpretation_Guide | Supplementary materials |
 
@@ -937,19 +981,19 @@ Output/
 ```r
 # Core packages
 install.packages(c(
-  # Data manipulation
+# Data manipulation
   "tidyverse", "data.table",
-  
-  # Survival analysis
+
+# Survival analysis
   "survival", "survminer",
-  
+
   # Multiple imputation
   "mice", "miceadds",
-  
+
   # Mixed models
   "lme4", "performance",
-  
-  # Meta-analysis
+
+# Meta-analysis
   "meta", "metafor",
   
   # Visualization
@@ -979,31 +1023,35 @@ source("01_Pooled_Descriptive.R")
 # source("02_MICE_Imputation.R")    # Optional, ~30-45 min
 source("03_Phi_ICC_Analysis.R")
 source("04_Pooled_Cox_Analysis.R")
-source("05_Sankey_Diagram.R")
-source("06_PAF_Analysis.R")
-source("07_Meta_Analysis.R")
-source("08_Methods_Parameters.R")
+source("05_Subgroup_Analysis.R")
+source("06_Sankey_Diagram.R")
+source("07_PAF_Analysis.R")
+source("08_Meta_Analysis.R")
+source("09_Methods_Parameters.R")
 ```
 
 ### 12.4 Estimated Runtime
 
 | Script                          | Estimated Time   | Notes                      |
 |:--------------------------------|:-----------------|:---------------------------|
-| Full pipeline (excl. MICE)      | 15-20 minutes    | Depends on system          |
+| Full pipeline (excl. MICE)      | 20-30 minutes    | Depends on system          |
 | `02_MICE_Imputation.R`          | 30-45 minutes    | Computationally intensive  |
 | `03_Phi_ICC_Analysis.R`         | 3-5 minutes      | Parallel bootstrap         |
 | `04_Pooled_Cox_Analysis.R`      | 5-10 minutes     | Multiple models            |
-| `07_Meta_Analysis.R`            | 5-10 minutes     | Plot generation            |
+| `05_Subgroup_Analysis.R`        | 3-5 minutes      | Age/Sex stratification     |
+| `07_PAF_Analysis.R`             | 5-10 minutes     | Bootstrap CI               |
+| `08_Meta_Analysis.R`            | 5-10 minutes     | Plot generation            |
 
 ---
 
 ## Version History
 
-| Version | Date     | Author          | Changes                                                    |
-|:--------|:---------|:----------------|:-----------------------------------------------------------|
-| 1.0     | Dec 2024 | Analysis Team   | Initial release                                            |
-| 2.0     | Dec 2024 | Analysis Team   | Added MICE, updated covariates (region), Methods Parameters |
-| 2.1     | Dec 2024 | Analysis Team   | Script renumbering (00-08), professional README            |
+| Version | Date       | Author          | Changes                                                             |
+|:--------|:-----------|:----------------|:--------------------------------------------------------------------|
+| 1.0     | Dec 2024   | Analysis Team   | Initial release                                                     |
+| 2.0     | Dec 2024   | Analysis Team   | Added MICE, updated covariates (region), Methods Parameters         |
+| 2.1     | Dec 2024   | Analysis Team   | Script renumbering (00-09), added Subgroup Analysis module          |
+| 2.2     | Jan 2025   | Analysis Team   | Professional README update, comprehensive output documentation      |
 
 ---
 
@@ -1019,9 +1067,11 @@ For questions regarding this analysis, please contact the study team.
 
 ---
 
-*Last updated: December 2024*
+*Last updated: January 2026*
 
-**Jung Sun Lab** | Department of Public Health
+**Heixao Ding** | Department of Health Technology and Informatics, The Hong Kong Polytechnic University
+
+**Hongtao Cheng** | School of Nursing, Sun Yat-sen University
 
 <br>
 
