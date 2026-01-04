@@ -685,12 +685,14 @@ Where:
 
 ### 9.1 Pre-Specified Sensitivity Analyses
 
-| Code    | Analysis                        | Rationale                         | Expected Impact              |
-|:--------|:--------------------------------|:----------------------------------|:-----------------------------|
-| **S1**  | 5-level exposure (0/1/2/3/4)    | Finer dose-response assessment    | More precise gradient        |
-| **S2**  | Heavy drinking definition       | Alternative exposure coding       | More conservative estimate   |
-| **S3**  | MICE imputed data               | Missing data sensitivity          | Similar if MAR holds         |
-| **S4**  | Exclude first follow-up wave    | Reverse causality concern         | Attenuated if reverse causal |
+| Code    | Analysis                        | Rationale                         | Expected Impact              | Output Files                              |
+|:--------|:--------------------------------|:----------------------------------|:-----------------------------|:------------------------------------------|
+| **S1**  | 5-level exposure (0/1/2/3/4)    | Finer dose-response assessment    | More precise gradient        | `Cox_S1_5Level_Categories.csv`            |
+| **S2**  | Heavy drinking definition       | Alternative exposure coding       | More conservative estimate   | `Cox_S2a_HeavyDrink_Individual.csv`, `Cox_S2b_HeavyDrink_Cumulative.csv` |
+| **S3**  | MICE imputed data               | Missing data sensitivity          | Similar if MAR holds         | `Cox_S3_MICE_Individual.csv`, `Cox_S3_MICE_Cumulative.csv` |
+| **S4**  | Exclude first follow-up wave    | Reverse causality concern         | Attenuated if reverse causal | `Cox_S4_Drop1st.csv`                      |
+
+> **Note**: All sensitivity analyses use **pooled Cox regression with `strata(cohort)`** to produce population-level hazard ratios, consistent with the primary analysis. Meta-analysis results for sensitivity analyses are also available in `Meta_Analysis_Comprehensive.xlsx`.
 
 ### 9.2 S1: 5-Level Lifestyle Categories
 
@@ -891,17 +893,17 @@ Output/
 │   │   ├── Phi_Coefficients_Complete.csv
 │   │   └── ICC_Results_Complete.csv
 │   │
-│   ├── [Cox Regression]
-│   │   ├── Pooled_Cox_All_Results.csv
-│   │   ├── Cox_Primary_Individual_Factors.csv
-│   │   ├── Cox_Primary_Cumulative_4Level.csv
-│   │   ├── Cox_S1_5Level_Categories.csv
-│   │   ├── Cox_S2a_HeavyDrink_Individual.csv
-│   │   ├── Cox_S2b_HeavyDrink_Cumulative.csv
-│   │   ├── Cox_S3_MICE_Individual.csv
-│   │   ├── Cox_S3_MICE_Cumulative.csv
-│   │   ├── Cox_S4_Drop1st.csv
-│   │   └── Cox_Summary_HR_CI.csv
+│   ├── [Cox Regression - Pooled Analysis with strata(cohort)]
+│   │   ├── Pooled_Cox_All_Results.csv             # All results combined
+│   │   ├── Cox_Primary_Individual_Factors.csv     # Primary: 4 lifestyle factors mutually adjusted
+│   │   ├── Cox_Primary_Cumulative_4Level.csv      # Primary: Cumulative score (0/1/2/3+)
+│   │   ├── Cox_S1_5Level_Categories.csv           # S1: 5-level score (0/1/2/3/4) pooled HR
+│   │   ├── Cox_S2a_HeavyDrink_Individual.csv      # S2a: Heavy drinking definition - individual
+│   │   ├── Cox_S2b_HeavyDrink_Cumulative.csv      # S2b: Heavy drinking definition - cumulative
+│   │   ├── Cox_S3_MICE_Individual.csv             # S3: MICE imputed - individual factors
+│   │   ├── Cox_S3_MICE_Cumulative.csv             # S3: MICE imputed - cumulative score
+│   │   ├── Cox_S4_Drop1st.csv                     # S4: Exclude first follow-up wave pooled HR
+│   │   └── Cox_Summary_HR_CI.csv                  # Publication-ready HR (95% CI) format
 │   │
 │   ├── [Subgroup Analysis]
 │   │   ├── Cox_Age_Stratified.csv
@@ -1058,6 +1060,7 @@ source("09_Methods_Parameters.R")
 | 2.0     | Dec 2025   | Analysis Team   | Added MICE, updated covariates (region), Methods Parameters         |
 | 2.1     | Dec 2025   | Analysis Team   | Script renumbering (00-09), added Subgroup Analysis module          |
 | 2.2     | Jan 2026   | Analysis Team   | Professional README update, comprehensive output documentation      |
+| 2.3     | Jan 2026   | Analysis Team   | Fixed sensitivity analysis pooled results (S1-S4), added strata(cohort) to all pooled Cox models, standardized P_value column types, enhanced MICE data handling with individual lifestyle factors |
 
 ---
 
@@ -1075,7 +1078,7 @@ For questions regarding this analysis, please contact the study team.
 
 *Last updated: January 2026*
 
-**Hexiao Ding** | Department of Health Technology and Informatics, The Hong Kong Polytechnic University
+**Heixao Ding** | Department of Health Technology and Informatics, The Hong Kong Polytechnic University
 
 **Hongtao Cheng** | School of Nursing, Sun Yat-sen University
 
